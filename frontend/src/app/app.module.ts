@@ -4,9 +4,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { IniciarSesionComponent } from './iniciarSesion/iniciarSesion.component';
-import { RouterModule, RouterOutlet } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [	
@@ -14,10 +15,11 @@ import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.compone
     IniciarSesionComponent,
       InicioPersonalComponent
    ],
-  imports: [
+  imports: [ 
     BrowserModule,
     ReactiveFormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

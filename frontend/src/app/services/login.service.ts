@@ -1,6 +1,10 @@
-import { Injectable, numberAttribute } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, catchError, map, of } from 'rxjs';
+import { LoginDto } from '../DTO/login.dto';
+import { jwtDecode } from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,20 +12,34 @@ import { Observable, of } from 'rxjs';
 export class LoginService {
 
 constructor(
-  private router: Router
-) { }
+  private router: Router,
+  private httpClient: HttpClient
+) { 
+  this.checkTokenExpiration()
+}
 
   private userCRA: string='usuarioCRA'
   private passCRA: string='admin'
+  private apiUrl = 'http://localhost:3000/auth/login'
 
-  public login(user: string, password: string): Observable<boolean>{
-    if(user==this.userCRA&&password==this.passCRA){
-      const token: string = btoa(user + ';' + password)
-      sessionStorage.setItem('token', token)
-      return of(true)
-    }else{
-      return of(false)
-    } 
+  public login(loginDto: LoginDto): Observable<{ success: boolean; message?: string }> {
+    return this.httpClient.post<any>(this.apiUrl, loginDto).pipe(
+      map(result => {
+        if (result && result.token) {
+          sessionStorage.setItem('token', result.token);
+          return { success: true };
+        }
+        return { success: false, message: 'Invalid credentials' };
+      }),
+      catchError(error => {
+        console.error('Error durante el inicio de sesion', error);
+        let errorMessage = 'An error occurred during login';
+        if (error.error && error.error.message) {
+          errorMessage = error.error.message;
+        }
+        return of({ success: false, message: errorMessage });
+      })
+    );
   }
 
   public logOut(): boolean{
@@ -32,27 +50,33 @@ constructor(
     return false
   }
 
+  private checkTokenExpiration() {
+    const token = sessionStorage.getItem('token');
+    if (token) {
+      let decodedToken: any;
+      try {
+        decodedToken = jwtDecode(token);
+      } catch (error) {
+        alert('¡Token invalido!');
+        sessionStorage.removeItem('token');
+        this.router.navigateByUrl('inicio');
+        return; 
+      }
+
+      const expirationTimeInSeconds: number = decodedToken.exp;
+      const currentTimeInSeconds: number = Math.floor(Date.now() / 1000);
+
+      if (currentTimeInSeconds > expirationTimeInSeconds) {
+        this.logOut();
+        this.router.navigateByUrl('inicio');
+      }
+    }
+  }
+
   public isLoggedIn(): Observable<boolean> {
     let token = sessionStorage.getItem('token')
     if (token){
-      
-      try {
-        let tokenDesencriptado: string= atob(token)
-        console.log(tokenDesencriptado);
-      
-        let [user, password]= tokenDesencriptado.split(";")
-        console.log(user);
-        console.log(password);
-      
-        if(user==this.userCRA&&password==this.passCRA){
-          return of(true)
-        }
-      } catch (error) {
-        alert('¡Token incorrecto!')
-        sessionStorage.removeItem('token')
-        this.router.navigateByUrl('inicio')
-        return of(false)
-      }
+      return of(true)
     }
     this.router.navigateByUrl('inicio')
     return of(false)

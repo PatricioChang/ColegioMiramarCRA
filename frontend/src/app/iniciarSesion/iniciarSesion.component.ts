@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
+import { LoginDto } from '../DTO/login.dto';
 
 @Component({
   selector: 'app-iniciarSesion',
@@ -28,12 +29,13 @@ export class IniciarSesionComponent implements OnInit {
 
   public iniciarSesion(): void{
     if(this.formLogIn.valid){
-      this.loginService.login(this.formLogIn.get('user')!.value, this.formLogIn.get("password")?.value).subscribe(response=>{
-        if(response){
+      const loginDto: LoginDto = {user: this.formLogIn.get('user')!.value, password: this.formLogIn.get('password')?.value}
+      this.loginService.login(loginDto).subscribe(response=>{
+        if(response && response.success){
           alert("¡Login Correcto!")
           this.router.navigateByUrl('inicioPersonal')
         }else{
-          alert("¡Login Incorrecto!")
+          alert(response.message)
         }
       })
     }else{
