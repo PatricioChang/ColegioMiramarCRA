@@ -1,0 +1,36 @@
+<body class="bg-gray-100">
+
+  <!-- Barra de navegación -->
+  <nav class="bg-blue-900 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Colegio Miramar</h1>
+      <ul class="flex space-x-4">
+        <li><a href="" class="hover:underline" (click)="logOut()">LogOut</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+  <!-- Contenido principal -->
+  <div class="container mx-auto mt-10 pb-10">
+    <h1 class="text-4xl font-bold mb-6">Biblioteca - Personal</h1>
+    <h2 class="text-3xl font-bold mb-6">Bienvenido, [Nombre del Personal]</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-4">Gestionar Libros</h3>
+        <p class="mb-4">Agregar, editar o eliminar libros en el catálogo.</p>
+        <button (click)="gestionarLibros()" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Ir</button> 
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-4">Reservas</h3>
+        <p class="mb-4">Ver y gestionar las reservas de los estudiantes.</p>
+        <button class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Ir</button> 
+      </div>
+      <div class="bg-white p-6 rounded-lg shadow-md">
+        <h3 class="text-xl font-bold mb-4">Devoluciones</h3>
+        <p class="mb-4">Confirmar devoluciones y actualizar la disponibilidad de libros.</p>
+        <button class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Ir</button> 
+      </div>
+    </div>
+  </div>
+
+</body>
