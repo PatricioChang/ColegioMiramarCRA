@@ -1,31 +1,29 @@
-import { ForbiddenException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './DTO/login.dto'
+import { UsuarioService } from 'src/usuario/usuario.service';
+import { Usuario } from 'src/entities/Usuario.entity';
 
 @Injectable()
 export class AuthService { 
 
     constructor(
-        private readonly jwtService: JwtService
+        private readonly jwtService: JwtService,
+        private readonly usuarioService: UsuarioService
     ){}
 
-    private readonly users=[
-        {user: 'usuarioCRA', password: 'admin'},
-        {user: 'usuario2CRA', password: 'admin'}
-    ]
-
     async autenticar(LoginDto: LoginDto): Promise<{ token: string }> {
-        const user = this.users.find(u => u.user === LoginDto.user);
+        const user: Usuario = await this.usuarioService.buscarPorUsuario(LoginDto.user)
 
         if (!user) {
             throw new ForbiddenException('User is wrong');
         }
 
-        if (user.password !== LoginDto.password) {
+        if (user.contraseña !== LoginDto.password) {
             throw new ForbiddenException('Password is wrong');
         }
 
-        const token: string = await this.jwtService.signAsync({ user: LoginDto.user });
+        const token: string = await this.jwtService.signAsync({ user: user.usuario });
         return { token };
     }
 }

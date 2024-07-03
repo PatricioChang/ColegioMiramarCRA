@@ -67,6 +67,7 @@ constructor(
       const currentTimeInSeconds: number = Math.floor(Date.now() / 1000);
 
       if (currentTimeInSeconds > expirationTimeInSeconds) {
+        alert('¡Se expiro el token vuelva a iniciar sesión!')
         this.logOut();
         this.router.navigateByUrl('inicio');
       }

@@ -10,12 +10,12 @@ import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.compone
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     IniciarSesionComponent,
-      InicioPersonalComponent
-   ],
-  imports: [ 
+    InicioPersonalComponent
+  ],
+  imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
