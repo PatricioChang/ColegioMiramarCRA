@@ -4,7 +4,7 @@ import { Usuario } from 'src/entities/Usuario.entity';
 
 @Controller('usuario')
 export class UsuarioController { 
-    constructor(private readonly userService: UsuarioService) {}
+  constructor(private readonly userService: UsuarioService) {}
 
   @Get()
   async buscarTodos(): Promise<Usuario[]> {

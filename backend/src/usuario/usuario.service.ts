@@ -11,7 +11,6 @@ constructor(
     ) {}
 
     async buscarTodos(): Promise<Usuario[]> {
-    console.log( this.usuarioRepository.find())
     return this.usuarioRepository.find();
     }
 

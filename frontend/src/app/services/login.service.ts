@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { LoginDto } from '../DTO/login.dto';
 import { jwtDecode } from 'jwt-decode';
-
-
 @Injectable({
   providedIn: 'root'
 })
@@ -13,13 +11,11 @@ export class LoginService {
 
 constructor(
   private router: Router,
-  private httpClient: HttpClient
+  private httpClient: HttpClient,
 ) { 
   this.checkTokenExpiration()
 }
 
-  private userCRA: string='usuarioCRA'
-  private passCRA: string='admin'
   private apiUrl = 'http://localhost:3000/auth/login'
 
   public login(loginDto: LoginDto): Observable<{ success: boolean; message?: string }> {
@@ -86,14 +82,11 @@ constructor(
   public isAlreadyLogged(): Observable<boolean>{
     let token = sessionStorage.getItem('token') 
     if (token) {
-      let [user, password]: string= atob(token)
-      if(user==this.userCRA){
-        this.router.navigateByUrl('inicioAdmin')
-      }else{
-        this.router.navigateByUrl('inicio');
-      }
+      this.router.navigateByUrl('inicioAdmin')
+      return of(true);
+    }else{
+      this.router.navigateByUrl('inicio');
       return of(false);
-    } 
-    return of(true);
+    }
   }
 }

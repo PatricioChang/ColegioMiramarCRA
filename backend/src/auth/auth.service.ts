@@ -3,6 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './DTO/login.dto'
 import { UsuarioService } from 'src/usuario/usuario.service';
 import { Usuario } from 'src/entities/Usuario.entity';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService { 
@@ -16,11 +17,13 @@ export class AuthService {
         const user: Usuario = await this.usuarioService.buscarPorUsuario(LoginDto.user)
 
         if (!user) {
-            throw new ForbiddenException('User is wrong');
+            throw new ForbiddenException('Usuario incorrecto');
         }
 
-        if (user.contraseña !== LoginDto.password) {
-            throw new ForbiddenException('Password is wrong');
+        const compararContraseña= await bcrypt.compare(LoginDto.password, user.contraseña)
+
+        if (!compararContraseña) {
+            throw new ForbiddenException('Contraseña incorrecta');
         }
 
         const token: string = await this.jwtService.signAsync({ user: user.usuario });

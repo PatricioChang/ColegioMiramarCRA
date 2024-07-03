@@ -8,12 +8,14 @@ import { RouterModule } from '@angular/router';
 import { routes } from './app.routes';
 import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ListaDeLibrosComponent } from './listaDeLibros/listaDeLibros.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     IniciarSesionComponent,
-    InicioPersonalComponent
+    InicioPersonalComponent,
+    ListaDeLibrosComponent
   ],
   imports: [
     BrowserModule,
