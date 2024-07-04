@@ -9,14 +9,16 @@ import { routes } from './app.routes';
 import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ListaDeLibrosComponent } from './listaDeLibros/listaDeLibros.component';
+import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
-    ListaDeLibrosComponent
-  ],
+    ListaDeLibrosComponent,
+      SolicitudLibroComponent
+   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
