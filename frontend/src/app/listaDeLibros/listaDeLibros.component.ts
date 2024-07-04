@@ -20,10 +20,14 @@ export class ListaDeLibrosComponent implements OnInit {
   }
 
   public libros: Libro[] = []
+  public librosReservados: Libro[]=[]
 
   public buscarLibros(): void{
     this.librosService.buscarLibros().subscribe(response=>{
       this.libros=response
+    })
+    this.librosService.buscarLibrosReservados().subscribe(repsonse=>{
+      this.librosReservados=repsonse
     })
   }
 

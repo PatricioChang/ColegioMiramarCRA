@@ -12,5 +12,6 @@ export const routes: Routes = [
     {path: 'inicioPersonal', component: InicioPersonalComponent, canActivate: [authGuard]},
     {path: 'listaDeLibros', component: ListaDeLibrosComponent},
     {path:'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
-    {path: '', redirectTo: '/inicio', pathMatch: 'full'}
+    {path: '', redirectTo: '/inicio', pathMatch: 'full'},
+    {path: '**',redirectTo: '/inicio'}
 ];
