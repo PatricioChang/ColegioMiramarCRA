@@ -1,9 +1,13 @@
 import { Module } from '@nestjs/common';
 import { LibroController } from './libro.controller';
 import { LibroService } from './libro.service';
+import { Libro } from 'src/entities/Libro.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
+import { Genero } from 'src/entities/Genero.entity';
 
 @Module({
-    imports: [],
+    imports: [TypeOrmModule.forFeature([Libro, Libro_Genero, Genero])],
     controllers: [LibroController],
     providers: [LibroService],
 })

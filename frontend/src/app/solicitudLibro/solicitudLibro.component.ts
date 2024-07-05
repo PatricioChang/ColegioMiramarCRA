@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LibrosService } from '../services/libros.service';
 import { SolicitudLibro } from '../DTO/solicitudLibro.dto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-solicitudLibro',
@@ -28,7 +27,8 @@ export class SolicitudLibroComponent implements OnInit {
 
   ngOnInit() {
     this.idLibro= +this.route.snapshot.paramMap.get('idLibro')!
-    this.comprobarReserva()
+    console.log(new Date().getHours()+':' +new Date().getMinutes())
+    //this.comprobarReserva()
   }
 
   public formularioSolicitudLibro: FormGroup

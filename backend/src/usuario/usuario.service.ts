@@ -14,8 +14,8 @@ constructor(
     return this.usuarioRepository.find();
     }
 
-    async buscarPorId(id: number): Promise<Usuario> {
-    return this.usuarioRepository.findOneBy({ id });
+    async buscarPorId(idUsuario: number): Promise<Usuario> {
+    return this.usuarioRepository.findOneBy({ idUsuario });
     }
 
     async buscarPorUsuario(usuario: string): Promise<Usuario> {
