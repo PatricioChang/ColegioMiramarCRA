@@ -26,9 +26,11 @@ export class ListaDeLibrosComponent implements OnInit {
     this.librosService.buscarLibros().subscribe(response=>{
       this.libros=response
     })
-    this.librosService.buscarLibrosReservados().subscribe(repsonse=>{
-      this.librosReservados=repsonse
+    this.librosService.buscarLibrosReservados().subscribe(response=>{
+      this.librosReservados=response
+      
     })
+    
   }
 
   public reservarLibro(idLibro: number): void{

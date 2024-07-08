@@ -6,15 +6,19 @@ export class SolicitudLibroDto {
   fechaDeSolicitud: Date;
 
   @IsString()
-  nombreSolicitante: string;
+  name: string;
 
   @IsString()
   @IsOptional()
-  cursoDelSolicitante: string
+  grade: string
 
   @IsString()
   @IsOptional()
-  rutDelSolicitante: string
+  rut: string
+
+  @IsDate()
+  @IsOptional()
+  fechaDeDevolucion: Date;
 
   @IsNumber()
   idLibro: number

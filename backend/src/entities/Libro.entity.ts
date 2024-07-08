@@ -14,7 +14,7 @@ export class Libro {
   autor: string
 
   @Column()
-  año: number
+  anio: number
 
   @Column()
   editorial: string
@@ -22,7 +22,7 @@ export class Libro {
   @Column()
   ubicacion: string
 
-  @OneToMany(()=>Solicitud, (solicitudes)=>solicitudes.idLibro)
+  @OneToMany(()=>Solicitud, (solicitud)=>solicitud.libro)
   solicitudes: Solicitud[]
 
   @OneToMany(()=>Libro_Genero, (libro_Generos)=>libro_Generos.libro)

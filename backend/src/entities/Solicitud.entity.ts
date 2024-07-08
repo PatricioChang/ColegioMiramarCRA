@@ -5,17 +5,17 @@ import { Libro } from './Libro.entity';
 
 @Entity()
 export class Solicitud {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("increment",{ type: 'int', name: 'idSolicitud' })
   id: number
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   rutSolicitante: string
 
   @Column()
   nombreSolicitante: string
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   cursoDelSolicitante: string
 
@@ -28,14 +28,15 @@ export class Solicitud {
   @Column()
   devuelto: boolean
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   fechaDeDevolucion: string
 
-  @Column()
+  @Column({ nullable: true })
+  @IsOptional()
   horaDeDevolucion: string
 
-  @Column()
+  @Column({ nullable: true })
   @IsOptional()
   observacion: string
 
@@ -44,6 +45,6 @@ export class Solicitud {
   idUsuario: Usuario
 
   @ManyToOne(()=> Libro, (libro)=> libro.solicitudes)
-  @JoinColumn([{name:"idLibro", referencedColumnName:"idLibro"}])
-  idLibro: Libro
+  @JoinColumn([{name:"idLibro"}])
+  libro: Libro
 }

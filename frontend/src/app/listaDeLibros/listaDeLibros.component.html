@@ -25,13 +25,13 @@
         <p class="text-gray-700">Autor: {{libro.autor}}</p>
 
         <!-- año > 0 (d.C) -->
-        <ng-container *ngIf="libro.ano>0">
-          <p class="text-gray-700">Año: {{libro.ano}}</p>
+        <ng-container *ngIf="libro.anio>0">
+          <p class="text-gray-700">Año: {{libro.anio}}</p>
         </ng-container>
 
         <!-- año < 0 (a.C) -->
-        <ng-container *ngIf="libro.ano<0">
-          <p class="text-gray-700">Año: {{libro.ano*-1}} a.C</p>
+        <ng-container *ngIf="libro.anio<0">
+          <p class="text-gray-700">Año: {{libro.anio*-1}} a.C</p>
         </ng-container>
 
         <p class="text-gray-700">Editorial: {{libro.editorial}}</p>
@@ -56,13 +56,13 @@
         <p class="text-gray-700">Autor: {{libro.autor}}</p>
 
         <!-- año > 0 (d.C) -->
-        <ng-container *ngIf="libro.ano>0">
-          <p class="text-gray-700">Año: {{libro.ano}}</p>
+        <ng-container *ngIf="libro.anio>0">
+          <p class="text-gray-700">Año: {{libro.anio}}</p>
         </ng-container>
 
         <!-- año < 0 (a.C) -->
-        <ng-container *ngIf="libro.ano<0">
-          <p class="text-gray-700">Año: {{libro.ano*-1}} a.C</p>
+        <ng-container *ngIf="libro.anio<0">
+          <p class="text-gray-700">Año: {{libro.anio*-1}} a.C</p>
         </ng-container>
         
         <p class="text-gray-700">Editorial: {{libro.editorial}}</p>

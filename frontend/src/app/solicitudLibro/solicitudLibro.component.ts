@@ -21,14 +21,12 @@ export class SolicitudLibroComponent implements OnInit {
       name: ['',Validators.required],
       grade: [],
       rut: [],
-      amount: []
     })
   }
 
   ngOnInit() {
     this.idLibro= +this.route.snapshot.paramMap.get('idLibro')!
-    console.log(new Date().getHours()+':' +new Date().getMinutes())
-    //this.comprobarReserva()
+    this.comprobarReserva()
   }
 
   public formularioSolicitudLibro: FormGroup
@@ -39,7 +37,7 @@ export class SolicitudLibroComponent implements OnInit {
       if(response){
         alert('¡El libro ya esta reservado!')
         this.router.navigateByUrl('listaDeLibros')
-      }else{
+      }else{  
         this.librosService.buscarLibro(this.idLibro).subscribe(response=>{
           if(!response){
             alert('¡El libro no existe!')
@@ -55,7 +53,6 @@ export class SolicitudLibroComponent implements OnInit {
       const solicitudLibroDto: SolicitudLibro= this.formularioSolicitudLibro.value
       solicitudLibroDto.fechaDeSolicitud= new Date()
       solicitudLibroDto.idLibro=this.idLibro
-      console.log(solicitudLibroDto)
       this.librosService.solicitarLibro(solicitudLibroDto).subscribe(response=>{
         if(response){
           alert('¡Reserva hecha!')
