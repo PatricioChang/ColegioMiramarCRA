@@ -21,6 +21,8 @@ export class LibroService {
 
     async buscarTodos(): Promise<Libro[]> {
         return await this.libroRepository.createQueryBuilder('libro')
+            .leftJoinAndSelect('libro.libro_Generos', 'libro_Generos')
+            .leftJoinAndSelect('libro_Generos.genero', 'genero')
             .leftJoin('libro.solicitudes', 'solicitud')
             .andWhere(qb => {
                 const subQuery = qb.subQuery()
@@ -32,10 +34,14 @@ export class LibroService {
                 return `solicitud.idSolicitud IS NULL OR libro.idLibro NOT IN (${subQuery})`
             })
             .getMany()
-  } 
+    } 
 
     async buscarLibro(idLibroBuscado: number): Promise<Libro> {
         return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').where('libro.idLibro = :idLibro', { idLibro: idLibroBuscado }).getOne()
+    }
+
+    async buscarPdfs(): Promise<Libro[]> {
+        return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').innerJoin('libro.pdf', 'pdf').getMany()
     }
 
     async buscarLibrosReservados(): Promise<Libro[]> {

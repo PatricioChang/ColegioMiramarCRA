@@ -6,13 +6,15 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsuarioModule } from './usuario/usuario.module';
 import { typeOrmConfig } from './typeorm/typeorm.service';
 import { LibroModule } from './libro/libro.module';
+import { PdfModule } from './pdf/pdf.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot(typeOrmConfig),
     AuthModule,
     UsuarioModule,
-    LibroModule],
+    LibroModule,
+    PdfModule],
   controllers: [AppController],
   providers: [AppService],
 })

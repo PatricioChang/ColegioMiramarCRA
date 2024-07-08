@@ -16,4 +16,8 @@ export class InicioComponent implements OnInit {
   public listaDeLibros(): void{
     this.router.navigateByUrl('listaDeLibros')
   }
+
+  public listaDeLibrosDigitales(): void{
+    this.router.navigateByUrl('listaDeLibrosDigitales')
+  }
 }

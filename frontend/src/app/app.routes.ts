@@ -5,6 +5,8 @@ import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.compone
 import { authGuard } from './guards/auth.guard';
 import { ListaDeLibrosComponent } from './listaDeLibros/listaDeLibros.component';
 import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.component';
+import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaDeLibrosDigitales.component';
+import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
 
 export const routes: Routes = [
     {path: 'inicio', component: InicioComponent},
@@ -12,6 +14,8 @@ export const routes: Routes = [
     {path: 'inicioPersonal', component: InicioPersonalComponent, canActivate: [authGuard]},
     {path: 'listaDeLibros', component: ListaDeLibrosComponent},
     {path:'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
+    {path: 'listaDeLibrosDigitales', component: ListaDeLibrosDigitalesComponent},
+    {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
     {path: '', redirectTo: '/inicio', pathMatch: 'full'},
     {path: '**',redirectTo: '/inicio'}
 ];

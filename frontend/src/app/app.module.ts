@@ -10,20 +10,26 @@ import { InicioPersonalComponent } from './inicioPersonal/inicioPersonal.compone
 import { HttpClientModule } from '@angular/common/http';
 import { ListaDeLibrosComponent } from './listaDeLibros/listaDeLibros.component';
 import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.component';
+import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaDeLibrosDigitales.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
     ListaDeLibrosComponent,
-      SolicitudLibroComponent
-   ],
+    SolicitudLibroComponent,
+    ListaDeLibrosDigitalesComponent,
+    VerLibroDigitalComponent
+  ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
-    HttpClientModule
+    HttpClientModule,
+    PdfViewerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
