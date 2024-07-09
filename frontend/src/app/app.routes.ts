@@ -7,6 +7,7 @@ import { ListaDeLibrosComponent } from './listaDeLibros/listaDeLibros.component'
 import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.component';
 import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaDeLibrosDigitales.component';
 import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
+import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
 
 export const routes: Routes = [
     {path: 'inicio', component: InicioComponent},
@@ -16,6 +17,7 @@ export const routes: Routes = [
     {path:'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
     {path: 'listaDeLibrosDigitales', component: ListaDeLibrosDigitalesComponent},
     {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
+    {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent},
     {path: '', redirectTo: '/inicio', pathMatch: 'full'},
     {path: '**',redirectTo: '/inicio'}
 ];

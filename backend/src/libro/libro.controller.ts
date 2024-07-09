@@ -8,9 +8,14 @@ import { Solicitud } from 'src/entities/Solicitud.entity';
 export class LibroController { 
 constructor(private readonly libroService: LibroService) {}
 
-  @Get('lista')
+  @Get('libros')
   async buscarTodos(): Promise<Libro[]> {
     return this.libroService.buscarTodos();
+  }
+
+  @Get('librosDisponibles')
+  async buscarTodosDisponibles(): Promise<Libro[]> {
+    return this.libroService.buscarTodosDisponibles();
   }
 
   @Get('libro/:idLibro')

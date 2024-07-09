@@ -14,7 +14,11 @@ constructor(private http: HttpClient) { }
   private apiUrl= 'http://localhost:3000/libro'
 
   public buscarLibros(): Observable<Libro[]>{
-    return this.http.get<Libro[]>(this.apiUrl + '/lista')
+    return this.http.get<Libro[]>(this.apiUrl + '/libros')
+  }
+
+  public buscarLibrosDisponibles(): Observable<Libro[]>{
+    return this.http.get<Libro[]>(this.apiUrl + '/librosDisponibles')
   }
 
   public buscarLibro(idLibro: number): Observable<Libro>{
@@ -31,5 +35,17 @@ constructor(private http: HttpClient) { }
 
   public solicitarLibro(solicitudLibroDto: SolicitudLibro): Observable<boolean>{
     return this.http.post<boolean>(this.apiUrl, solicitudLibroDto)
+  }
+
+  public addLibro(libro: Libro): Observable<Libro> {
+    return this.http.post<Libro>(this.apiUrl, libro);
+  }
+
+  public updateLibro(libro: Libro): Observable<void> {
+    return this.http.put<void>(`${this.apiUrl}/${libro.idLibro}`, libro);
+  }
+
+  public deleteLibro(idLibro: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${idLibro}`);
   }
 }

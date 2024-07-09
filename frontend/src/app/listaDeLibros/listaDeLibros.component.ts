@@ -23,7 +23,7 @@ export class ListaDeLibrosComponent implements OnInit {
   public librosReservados: Libro[]=[]
 
   public buscarLibros(): void{
-    this.librosService.buscarLibros().subscribe(response=>{
+    this.librosService.buscarLibrosDisponibles().subscribe(response=>{
       this.libros=response
     })
     this.librosService.buscarLibrosReservados().subscribe(response=>{

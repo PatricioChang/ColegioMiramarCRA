@@ -20,6 +20,10 @@ export class LibroService {
     ) {}
 
     async buscarTodos(): Promise<Libro[]> {
+        return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()
+    }
+
+    async buscarTodosDisponibles(): Promise<Libro[]> {
         return await this.libroRepository.createQueryBuilder('libro')
             .leftJoinAndSelect('libro.libro_Generos', 'libro_Generos')
             .leftJoinAndSelect('libro_Generos.genero', 'genero')

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppComponent } from './app.component';
 import { IniciarSesionComponent } from './iniciarSesion/iniciarSesion.component';
@@ -13,23 +13,29 @@ import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.compone
 import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaDeLibrosDigitales.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
+import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
     ListaDeLibrosComponent,
     SolicitudLibroComponent,
     ListaDeLibrosDigitalesComponent,
-    VerLibroDigitalComponent
-  ],
+    VerLibroDigitalComponent,
+    GestionarListaDeLibrosComponent
+   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    PdfViewerModule
+    PdfViewerModule,
+    NgMultiSelectDropDownModule.forRoot(),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
