@@ -7,6 +7,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 import { typeOrmConfig } from './typeorm/typeorm.service';
 import { LibroModule } from './libro/libro.module';
 import { PdfModule } from './pdf/pdf.module';
+import { GeneroModule } from './genero/genero.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { PdfModule } from './pdf/pdf.module';
     AuthModule,
     UsuarioModule,
     LibroModule,
-    PdfModule],
+    PdfModule,
+    GeneroModule],
   controllers: [AppController],
   providers: [AppService],
 })

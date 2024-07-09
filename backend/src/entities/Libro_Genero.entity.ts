@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, JoinColumn, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, ManyToOne, JoinColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Genero } from './Genero.entity';
 import { Libro } from './Libro.entity';
 

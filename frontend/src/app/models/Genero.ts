@@ -1,8 +1,8 @@
 export class Genero {
-    public id: number
+    public idGenero: number
     public nombre: string
-    constructor(id: number, nombre: string){
-      this.id=id
+    constructor(idGenero: number, nombre: string){
+      this.idGenero=idGenero
       this.nombre=nombre
     }
   }

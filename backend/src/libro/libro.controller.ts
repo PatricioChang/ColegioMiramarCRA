@@ -1,8 +1,7 @@
 import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { LibroService } from './libro.service';
 import { Libro } from 'src/entities/Libro.entity';
-import { SolicitudLibroDto } from './DTO/SolicitudLibro.dto';
-import { Solicitud } from 'src/entities/Solicitud.entity';
+import { CrearLibroDto } from './DTO/CrearLibro.dto';
 
 @Controller('libro')
 export class LibroController { 
@@ -34,7 +33,7 @@ constructor(private readonly libroService: LibroService) {}
   }
 
   @Post()
-  async solicitarLibro(@Body() solicitudLibroDto: SolicitudLibroDto): Promise<Solicitud> {
-    return this.libroService.solicitarLibro(solicitudLibroDto);
+  create(@Body() CrearLibroDto: CrearLibroDto): Promise<Libro> {
+    return this.libroService.create(CrearLibroDto);
   }
 }

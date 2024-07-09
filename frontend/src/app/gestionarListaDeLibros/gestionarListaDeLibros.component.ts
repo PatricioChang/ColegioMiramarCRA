@@ -4,6 +4,9 @@ import { Libro } from '../models/Libro';
 import { LoginService } from '../services/login.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
+import { GeneroService } from '../services/genero.service';
+import { Genero } from '../models/Genero';
+import { crearLibroDto } from '../DTO/crearLibro.dto';
 
 
 @Component({
@@ -16,6 +19,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   constructor(
     private librosService: LibrosService,
     private loginService: LoginService,
+    private generoService: GeneroService,
     private formBuilder: FormBuilder
   ) { 
     this.formularioAgregarEditar= formBuilder.group({
@@ -23,46 +27,72 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       autor: ['', Validators.required],
       anio: ['', Validators.required],
       editorial: ['', Validators.required],
+      ubicacion: ['', Validators.required],
       generos: ['', Validators.required]
     })
   }
 
   ngOnInit() {
     this.buscarLibros()
-    this.dropdownList = [
-      { item_id: 1, item_text: 'Mumbai' },
-      { item_id: 2, item_text: 'Bangaluru' },
-      { item_id: 3, item_text: 'Pune' },
-      { item_id: 4, item_text: 'Navsari' },
-      { item_id: 5, item_text: 'New Delhi' }
-    ];
+    this.buscarGeneros()
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'item_id',
-      textField: 'item_text',
+      idField: 'idGenero',
+      textField: 'nombre',
       selectAllText: 'Seleccionar todos',
       unSelectAllText: 'Deseleccionar todos',
-      itemsShowLimit: 10,
+      itemsShowLimit: 20,
       allowSearchFilter: true,
       searchPlaceholderText: 'Buscar genero',
       noDataAvailablePlaceholderText: 'No hay generos disponibles'
-    };
+    }
   }
 
   public libros: Libro[] = []
   public librosReservados: Libro[]=[]
+  public generos: Genero[]=[]
   public agregarLibroBoolean: boolean = false
   public formularioAgregarEditar: FormGroup
-  dropdownList: {item_id: number, item_text: string}[] = [];
-  dropdownSettings: IDropdownSettings = {};
+  public dropdownSettings: IDropdownSettings = {}
 
   public buscarLibros() {
     this.librosService.buscarLibros().subscribe(response => {
-      this.libros = response;
+      this.libros = response
+    })
+  }
+
+  public buscarGeneros(){
+    this.generoService.buscarGeneros().subscribe(response=>{
+      this.generos=response
     })
   }
 
   public agregarLibro(){
+    if(this.formularioAgregarEditar.valid){
+      const valoresFormulario = this.formularioAgregarEditar.value;
+      const nuevoLibro: crearLibroDto = {
+        titulo: valoresFormulario.titulo,
+        autor: valoresFormulario.autor,
+        anio: valoresFormulario.anio,
+        editorial: valoresFormulario.editorial,
+        ubicacion: valoresFormulario.ubicacion,
+        libro_Generos: valoresFormulario.generos.map((genero: any) => genero.idGenero)
+      }
+      this.librosService.agregarLibro(nuevoLibro).subscribe(
+        response => {
+          this.formularioAgregarEditar.reset()
+          this.agregarLibroBoolean = false
+          this.buscarLibros()
+          alert('¡Libro agregado exitosamente!')
+        },
+        error => {
+          console.error(error)
+          alert('Hubo un error al agregar el libro.')
+        }
+      )
+    }else{
+      alert('¡Rellene todos los campos!')
+    }
   }
 
   public editarLibro() {
@@ -71,7 +101,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public eliminarLibro(idLibro: number) {
     this.librosService.deleteLibro(idLibro).subscribe(() => {
       this.buscarLibros();
-    });
+    })
   }
 
   public logOut(): void{

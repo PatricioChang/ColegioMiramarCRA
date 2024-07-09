@@ -1,12 +1,13 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { Libro } from 'src/entities/Libro.entity';
 import { SolicitudLibroDto } from './DTO/SolicitudLibro.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
 import { Genero } from 'src/entities/Genero.entity';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
+import { CrearLibroDto } from './DTO/CrearLibro.dto';
+import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
 
 @Injectable()
 export class LibroService {
@@ -16,8 +17,37 @@ export class LibroService {
     @InjectRepository(Solicitud)
     private solicitudRepository: Repository<Solicitud>,
     @InjectRepository(Usuario)
-    private usuarioRepository: Repository<Usuario>
+    private usuarioRepository: Repository<Usuario>,
+    @InjectRepository(Genero)
+    private generoRepository: Repository<Genero>,
+    @InjectRepository(Libro_Genero)
+    private libro_GeneroRepository: Repository<Libro_Genero>
     ) {}
+
+    async create(crearLibroDto: CrearLibroDto): Promise<Libro> {
+        const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearLibroDto
+
+    const libro = this.libroRepository.create({
+      titulo,
+      autor,
+      anio,
+      editorial,
+      ubicacion
+    })
+
+    await this.libroRepository.save(libro)
+
+    const generos = await this.generoRepository.findByIds(libro_Generos)
+
+    for (const genero of generos) {
+      const libroGenero = new Libro_Genero()
+      libroGenero.libro = libro
+      libroGenero.genero = genero
+      await this.libro_GeneroRepository.save(libroGenero)
+    }
+
+    return libro
+  }
 
     async buscarTodos(): Promise<Libro[]> {
         return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()

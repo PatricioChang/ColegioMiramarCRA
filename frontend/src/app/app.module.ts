@@ -28,7 +28,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     VerLibroDigitalComponent,
     GestionarListaDeLibrosComponent
    ],
-  imports: [
+  imports: [ 
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),
