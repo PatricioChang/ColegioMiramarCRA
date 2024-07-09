@@ -11,7 +11,4 @@
 <div class="container mx-auto p-4">
   <h2 class="text-3xl font-semibold mb-4">Visualización del Libro</h2>
   <pdf-viewer [src]='pdfSrc' [render-text]="true" [original-size]="false" style="width: 100%; height: 1080px;"></pdf-viewer>
-  <div *ngIf="pdfSrc">
-    <pdf-viewer [src]="pdfSrc" useBrowserLocale="true" height="80vh"></pdf-viewer>
-  </div>
 </div>

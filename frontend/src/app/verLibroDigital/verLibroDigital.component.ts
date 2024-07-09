@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PdfService } from '../services/pdf.service';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { SafeResourceUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-verLibroDigital',
@@ -13,24 +13,28 @@ export class VerLibroDigitalComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private pdfService: PdfService,
+    private router: Router
   ) { }
 
   ngOnInit() {
     this.idLibro = +this.route.snapshot.paramMap.get('idLibro')!
-    this.loadPdf()
+    this.cargarPdf()
   }
 
   public pdfSrc: SafeResourceUrl | undefined
   public idLibro: number=0
 
-  public loadPdf(): void {
+  public cargarPdf(): void {
     this.pdfService.buscarPdf(this.idLibro).subscribe(
       (data: Blob) => {
         const url = URL.createObjectURL(data)
         this.pdfSrc=url
       },
       (error) => {
-        console.error('Error al cargar el PDF', error)
+        if(error.status==404){
+          alert('¡El libro no existe!')
+          this.router.navigateByUrl('listaDeLibrosDigitales')
+        }
       }
     )
   }
