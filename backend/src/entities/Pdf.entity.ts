@@ -12,7 +12,7 @@ export class Pdf {
   @Column('longblob')
   data: Buffer
 
-  @OneToOne(() => Libro, libro => libro.pdf)
+  @OneToOne(() => Libro, libro => libro.pdf, { onDelete: "CASCADE", onUpdate: "CASCADE"})
   @JoinColumn()
   libro: Libro;
 }

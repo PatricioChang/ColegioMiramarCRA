@@ -2,7 +2,7 @@ import { BadRequestException, Injectable, NotFoundException } from '@nestjs/comm
 import { Libro } from 'src/entities/Libro.entity';
 import { SolicitudLibroDto } from './DTO/SolicitudLibro.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { getRepository, Repository } from 'typeorm';
 import { Genero } from 'src/entities/Genero.entity';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
@@ -24,30 +24,40 @@ export class LibroService {
     private libro_GeneroRepository: Repository<Libro_Genero>
     ) {}
 
-    async create(crearLibroDto: CrearLibroDto): Promise<Libro> {
+    async crearLibro(crearLibroDto: CrearLibroDto): Promise<Libro> {
         const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearLibroDto
 
-    const libro = this.libroRepository.create({
-      titulo,
-      autor,
-      anio,
-      editorial,
-      ubicacion
-    })
+        const libro = this.libroRepository.create({
+            titulo,
+            autor,
+            anio,
+            editorial,
+            ubicacion
+        })
 
-    await this.libroRepository.save(libro)
+        await this.libroRepository.save(libro)
 
-    const generos = await this.generoRepository.findByIds(libro_Generos)
+        if (libro_Generos && libro_Generos.length > 0) {
+        const generos = await this.generoRepository.findByIds(libro_Generos)
+        for (const genero of generos) {
+            const libroGenero = new Libro_Genero()
+            libroGenero.libro = libro
+            libroGenero.genero = genero
+            await this.libro_GeneroRepository.save(libroGenero)
+        }
+        }
 
-    for (const genero of generos) {
-      const libroGenero = new Libro_Genero()
-      libroGenero.libro = libro
-      libroGenero.genero = genero
-      await this.libro_GeneroRepository.save(libroGenero)
+        return libro
     }
 
-    return libro
-  }
+    async eliminarLibro(idLibro: number): Promise<void> {
+        const libro = await this.libroRepository.findOneById(idLibro)
+        if (!libro) {
+          throw new NotFoundException(`Libro con id ${idLibro} no encontrado.`)
+        }
+    
+        await this.libroRepository.remove(libro)
+      }
 
     async buscarTodos(): Promise<Libro[]> {
         return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()

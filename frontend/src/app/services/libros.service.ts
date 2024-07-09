@@ -39,14 +39,14 @@ constructor(private http: HttpClient) { }
   }
 
   public agregarLibro(crearLibroDto: crearLibroDto): Observable<Libro> {
-    return this.http.post<Libro>(this.apiUrl, crearLibroDto)
+    return this.http.post<Libro>(this.apiUrl + '/crearLibro', crearLibroDto)
   }
 
   public updateLibro(libro: Libro): Observable<void> {
     return this.http.put<void>(`${this.apiUrl}/${libro.idLibro}`, libro)
   }
 
-  public deleteLibro(idLibro: number): Observable<void> {
+  public borrarLibro(idLibro: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${idLibro}`)
   }
 }

@@ -99,8 +99,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   }
 
   public eliminarLibro(idLibro: number) {
-    this.librosService.deleteLibro(idLibro).subscribe(() => {
-      this.buscarLibros();
+    this.librosService.borrarLibro(idLibro).subscribe(() => {
+      alert('¡Libro eliminado!')
+      this.buscarLibros()
     })
   }
 

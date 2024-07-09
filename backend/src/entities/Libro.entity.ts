@@ -26,7 +26,7 @@ export class Libro {
   @OneToMany(()=>Solicitud, (solicitud)=>solicitud.libro)
   solicitudes: Solicitud[]
 
-  @OneToMany(()=>Libro_Genero, (libro_Generos)=>libro_Generos.libro, { cascade: true })
+  @OneToMany(()=>Libro_Genero, (libro_Generos)=>libro_Generos.libro)
   libro_Generos: Libro_Genero[]
 
   @OneToOne(() => Pdf, pdf => pdf.libro)

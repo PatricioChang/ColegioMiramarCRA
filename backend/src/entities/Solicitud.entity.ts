@@ -44,7 +44,7 @@ export class Solicitud {
   @JoinColumn([{name: "idUsuario", referencedColumnName: "idUsuario"}])
   idUsuario: Usuario
 
-  @ManyToOne(()=> Libro, (libro)=> libro.solicitudes)
+  @ManyToOne(()=> Libro, (libro)=> libro.solicitudes, { onDelete: "CASCADE", onUpdate: "CASCADE"})
   @JoinColumn([{name:"idLibro"}])
   libro: Libro
 }

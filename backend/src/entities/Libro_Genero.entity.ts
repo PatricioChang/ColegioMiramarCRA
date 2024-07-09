@@ -7,11 +7,11 @@ export class Libro_Genero {
     @PrimaryGeneratedColumn("increment",{ type: 'int', name: 'idLibro_Genero' })
   idLibro_Genero: number;
 
-  @ManyToOne(() => Libro, (libro) => libro.libro_Generos)
+  @ManyToOne(() => Libro, (libro) => libro.libro_Generos, { onDelete: "CASCADE", onUpdate: "CASCADE"})
   @JoinColumn({ name: 'idLibro' })
   libro: Libro;
 
-  @ManyToOne(() => Genero, (genero) => genero.libros_Genero)
+  @ManyToOne(() => Genero, (genero) => genero.libros_Genero, { onDelete: "CASCADE", onUpdate: "CASCADE"})
   @JoinColumn({ name: 'idGenero' })
   genero: Genero;
 }
