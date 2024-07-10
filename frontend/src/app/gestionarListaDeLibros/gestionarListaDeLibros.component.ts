@@ -7,6 +7,7 @@ import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { GeneroService } from '../services/genero.service';
 import { Genero } from '../models/Genero';
 import { crearLibroDto } from '../DTO/crearLibro.dto';
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -99,9 +100,27 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   }
 
   public eliminarLibro(idLibro: number) {
-    this.librosService.borrarLibro(idLibro).subscribe(() => {
-      alert('¡Libro eliminado!')
-      this.buscarLibros()
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.librosService.borrarLibro(idLibro).subscribe(() => {
+          Swal.fire({
+            title: 'Eliminado!',
+            text: "El libro ha sido eliminado.",
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+          this.buscarLibros()
+        })
+      }
     })
   }
 
