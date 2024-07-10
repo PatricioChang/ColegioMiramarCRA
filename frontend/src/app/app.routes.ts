@@ -8,6 +8,7 @@ import { SolicitudLibroComponent } from './solicitudLibro/solicitudLibro.compone
 import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaDeLibrosDigitales.component';
 import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
 import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
+import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
 
 export const routes: Routes = [
     {path: 'inicio', component: InicioComponent},
@@ -18,6 +19,7 @@ export const routes: Routes = [
     {path: 'listaDeLibrosDigitales', component: ListaDeLibrosDigitalesComponent},
     {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
     {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent},
+    {path: 'gestionarReservas', component:GestionarReservasComponent},
     {path: '', redirectTo: '/inicio', pathMatch: 'full'},
     {path: '**',redirectTo: '/inicio'}
 ];

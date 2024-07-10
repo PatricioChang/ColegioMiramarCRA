@@ -21,6 +21,10 @@ export class InicioPersonalComponent implements OnInit {
     this.router.navigateByUrl('gestionarListaDeLibros')
   }
 
+  public gestionarReservas(){
+    this.router.navigateByUrl('gestionarReservas')
+  }
+
   public logOut(): void{
     this.loginService.logOut()
     alert('¡Se ha cerrado la sesión!')

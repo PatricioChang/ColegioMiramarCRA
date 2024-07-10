@@ -15,10 +15,10 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
 import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-
+import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
@@ -26,9 +26,10 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     SolicitudLibroComponent,
     ListaDeLibrosDigitalesComponent,
     VerLibroDigitalComponent,
-    GestionarListaDeLibrosComponent
-   ],
-  imports: [ 
+    GestionarListaDeLibrosComponent,
+    GestionarReservasComponent
+  ],
+  imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(routes),

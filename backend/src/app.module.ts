@@ -8,6 +8,7 @@ import { typeOrmConfig } from './typeorm/typeorm.service';
 import { LibroModule } from './libro/libro.module';
 import { PdfModule } from './pdf/pdf.module';
 import { GeneroModule } from './genero/genero.module';
+import { SolicitudModule } from './solicitud/solicitud.module';
 
 @Module({
   imports: [
@@ -16,7 +17,8 @@ import { GeneroModule } from './genero/genero.module';
     UsuarioModule,
     LibroModule,
     PdfModule,
-    GeneroModule],
+    GeneroModule,
+    SolicitudModule],
   controllers: [AppController],
   providers: [AppService],
 })

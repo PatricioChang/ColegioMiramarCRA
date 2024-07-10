@@ -6,7 +6,7 @@ import { Libro } from './Libro.entity';
 @Entity()
 export class Solicitud {
   @PrimaryGeneratedColumn("increment",{ type: 'int', name: 'idSolicitud' })
-  id: number
+  idSolicitud: number
 
   @Column({ nullable: true })
   @IsOptional()

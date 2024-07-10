@@ -6,7 +6,7 @@ import { getRepository, Repository } from 'typeorm';
 import { Genero } from 'src/entities/Genero.entity';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
-import { CrearEditarLibroDto } from './DTO/CrearEditarLibro.dto';
+import { CrearEditarLibroDto } from './DTO/CrearLibro.dto';
 import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
 
 @Injectable()

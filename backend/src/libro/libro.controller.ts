@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { LibroService } from './libro.service';
 import { Libro } from 'src/entities/Libro.entity';
-import { CrearEditarLibroDto } from './DTO/CrearEditarLibro.dto';
+import { CrearEditarLibroDto } from './DTO/CrearLibro.dto';
 import { SolicitudLibroDto } from './DTO/SolicitudLibro.dto';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 
