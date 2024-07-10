@@ -1,6 +1,6 @@
 import { Libro_Genero } from "../models/Libro_Genero"
 
-export interface crearLibroDto {
+export interface CrearEditarLibroDto {
    titulo: string
    autor: string
    anio: number

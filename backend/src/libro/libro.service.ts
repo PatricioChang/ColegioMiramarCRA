@@ -6,7 +6,7 @@ import { getRepository, Repository } from 'typeorm';
 import { Genero } from 'src/entities/Genero.entity';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
-import { CrearLibroDto } from './DTO/CrearLibro.dto';
+import { CrearEditarLibroDto } from './DTO/CrearEditarLibro.dto';
 import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
 
 @Injectable()
@@ -24,8 +24,8 @@ export class LibroService {
     private libro_GeneroRepository: Repository<Libro_Genero>
     ) {}
 
-    async crearLibro(crearLibroDto: CrearLibroDto): Promise<Libro> {
-        const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearLibroDto
+    async crearLibro(crearEditarLibroDto: CrearEditarLibroDto): Promise<Libro> {
+        const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearEditarLibroDto
 
         const libro = this.libroRepository.create({
             titulo,
@@ -39,12 +39,49 @@ export class LibroService {
 
         if (libro_Generos && libro_Generos.length > 0) {
         const generos = await this.generoRepository.findByIds(libro_Generos)
-        for (const genero of generos) {
-            const libroGenero = new Libro_Genero()
-            libroGenero.libro = libro
-            libroGenero.genero = genero
-            await this.libro_GeneroRepository.save(libroGenero)
+            for (const genero of generos) {
+                const libroGenero = new Libro_Genero()
+                libroGenero.libro = libro
+                libroGenero.genero = genero
+                await this.libro_GeneroRepository.save(libroGenero)
+            }
         }
+
+        return libro
+    }
+
+    async editarLibro(idLibro: number, crearEditarLibroDto: CrearEditarLibroDto): Promise<Libro> {
+        const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearEditarLibroDto
+
+        const libro = await this.libroRepository.findOneById(idLibro)
+
+        if (!libro) {
+        throw new Error('Libro no encontrado')
+        }
+
+        libro.titulo = titulo
+        libro.autor = autor
+        libro.anio = anio
+        libro.editorial = editorial
+        libro.ubicacion = ubicacion
+
+        await this.libroRepository.save(libro)
+
+        if (libro_Generos && libro_Generos.length > 0) {
+            const generos = await this.generoRepository.findByIds(libro_Generos)
+
+            await this.libro_GeneroRepository.delete({ libro: libro })
+
+            const nuevasRelaciones = generos.map((genero) => {
+                const libroGenero = new Libro_Genero()
+                libroGenero.libro = libro
+                libroGenero.genero = genero
+                return libroGenero
+            })
+
+            await this.libro_GeneroRepository.save(nuevasRelaciones)
+        } else {
+            await this.libro_GeneroRepository.delete({ libro: libro })
         }
 
         return libro
@@ -74,7 +111,7 @@ export class LibroService {
                     .from(Solicitud, 'solicitud_sub')
                     .where('solicitud_sub.idLibro = libro.idLibro')
                     .andWhere('solicitud_sub.devuelto = :devuelto', { devuelto: false })
-                    .getQuery();
+                    .getQuery()
                 return `solicitud.idSolicitud IS NULL OR libro.idLibro NOT IN (${subQuery})`
             })
             .getMany()

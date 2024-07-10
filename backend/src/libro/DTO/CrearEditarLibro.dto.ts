@@ -1,6 +1,6 @@
 import { IsString, IsNumber, IsArray, ArrayNotEmpty, IsNotEmpty } from 'class-validator';
 
-export class CrearLibroDto {
+export class CrearEditarLibroDto {
   @IsString()
   @IsNotEmpty()
   titulo: string;

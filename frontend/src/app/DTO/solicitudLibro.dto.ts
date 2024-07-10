@@ -1,4 +1,4 @@
-export interface SolicitudLibro {
+export interface SolicitudLibroDto {
     fechaDeSolicitud: Date
     nombreSolicitante: string
     cursoDelSolicitante?: string

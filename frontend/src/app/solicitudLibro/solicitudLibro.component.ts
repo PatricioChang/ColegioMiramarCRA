@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LibrosService } from '../services/libros.service';
-import { SolicitudLibro } from '../DTO/solicitudLibro.dto';
+import { SolicitudLibroDto } from '../DTO/solicitudLibro.dto';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
@@ -50,7 +50,7 @@ export class SolicitudLibroComponent implements OnInit {
 
   public solicitarLibro(): void{
     if(this.formularioSolicitudLibro.valid){
-      const solicitudLibroDto: SolicitudLibro= this.formularioSolicitudLibro.value
+      const solicitudLibroDto: SolicitudLibroDto= this.formularioSolicitudLibro.value
       solicitudLibroDto.fechaDeSolicitud= new Date()
       solicitudLibroDto.idLibro=this.idLibro
       this.librosService.solicitarLibro(solicitudLibroDto).subscribe(response=>{

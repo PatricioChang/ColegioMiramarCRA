@@ -5,8 +5,8 @@
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">Colegio Miramar</h1>
       <ul class="flex space-x-4">
-        <li *ngIf="!agregarLibroBoolean"><a href="inicioPersonal" class="hover:underline">Inicio</a></li>
-        <li *ngIf="agregarLibroBoolean"><a href="gestionarListaDeLibros" (click)="agregarLibroBoolean=false" class="hover:underline">Inicio</a></li>
+        <li *ngIf="!agregarLibroBoolean&&!editarLibroBoolean"><a href="inicioPersonal" class="hover:underline">Inicio</a></li>
+        <li *ngIf="agregarLibroBoolean||editarLibroBoolean"><a href="gestionarListaDeLibros" (click)="restablecerValores()" class="hover:underline">Inicio</a></li>
         <li><a href="" class="hover:underline" (click)="logOut()">LogOut</a></li>
       </ul>
     </div>
@@ -14,7 +14,7 @@
 
   <!-- Contenido principal -->
   <div class="bg-white shadow rounded-lg p-6">
-    <button *ngIf="!agregarLibroBoolean" (click)="agregarLibroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar libro</button>
+    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean" (click)="agregarLibroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar libro</button>
 
     <!-- Formulario para agregar libro -->
     <div class="flex items-center justify-center p-10" *ngIf="agregarLibroBoolean">
@@ -53,8 +53,47 @@
         <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Agregar libro</button>
       </form>
     </div>
+
+    <!-- Formulario para editar libro -->
+    <div class="flex items-center justify-center p-10" *ngIf="editarLibroBoolean">
+      <form [formGroup]="formularioAgregarEditar" (ngSubmit)="editarLibro()" class="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <h2 class="text-2xl font-bold mb-4">Editar Libro</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700">Titulo</label>
+          <input formControlName="titulo" type="text" class="w-full px-3 py-2 border rounded" placeholder="Titulo" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Autor</label>
+          <input formControlName="autor" type="text" class="w-full px-3 py-2 border rounded" placeholder="Autor" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Ubicacion</label>
+          <input formControlName="ubicacion" type="text" class="w-full px-3 py-2 border rounded" placeholder="Ubicacion" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Año</label>
+          <input formControlName="anio" type="number" class="w-full px-3 py-2 border rounded" placeholder="Año" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Editorial</label>
+          <input formControlName="editorial" type="text" class="w-full px-3 py-2 border rounded" placeholder="Editorial" />
+        </div>
+        <div class="mb-4">
+          <label class="block text-gray-700">Generos</label>
+          <ng-multiselect-dropdown class="w-full px-3 py-2 rounded"
+            placeholder="Generos"
+            [settings]="dropdownSettings"
+            [data]="generos"
+            [(ngModel)]="generosLibro"
+            formControlName="generos"
+          >
+          </ng-multiselect-dropdown>
+        </div>
+        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded mb-4">Editar libro</button>
+      </form>
+    </div>
     
-    <ng-container *ngIf="!agregarLibroBoolean">
+    <ng-container *ngIf="!agregarLibroBoolean&&!editarLibroBoolean">
       <h2 class="text-3xl font-semibold mb-4 text-center">Gestión de Libros</h2>
       <p class="text-sm text-gray-600 text-center mb-6">Aqui puedes gestionar los libros de la biblioteca, puedes crear, editar y eliminar libros.</p>
 
@@ -84,7 +123,7 @@
               <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro_Generos.indexOf(libroGenero) < libro.libro_Generos.length - 1">, </span>
             </ng-container>
           </p>
-          <button (click)="editarLibro()" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
+          <button (click)="iniciarEditarLibro(libro)" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
           <button (click)="eliminarLibro(libro.idLibro)" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar</button> 
         </div>
       </div>
