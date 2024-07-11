@@ -16,6 +16,9 @@ import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.comp
 import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +40,11 @@ import { GestionarReservasComponent } from './gestionarReservas/gestionarReserva
     PdfViewerModule,
     NgMultiSelectDropDownModule.forRoot(),
     FormsModule,
-    SweetAlert2Module
+    SweetAlert2Module,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-top-right',
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
+import { SolicitudService } from '../services/solicitud.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-inicioPersonal',
@@ -11,10 +13,18 @@ export class InicioPersonalComponent implements OnInit {
 
   constructor(
     private loginService: LoginService,
-    private router: Router
+    private router: Router,
+    private solicitudService: SolicitudService,
+    private toastrService: ToastrService
   ) { }
 
   ngOnInit() {
+    this.solicitudService.buscarSolicitudes().subscribe(response=>{
+      const solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion)
+      if(solicitudesPorAceptar.length>0){
+        this.toastrService.info('¡Hay solicitudes por aceptar!', 'Notificación');
+      }
+    })
   }
 
   public gestionarListaDeLibros(): void{
