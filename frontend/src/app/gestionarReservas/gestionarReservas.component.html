@@ -25,12 +25,20 @@
       </form>
     </div>
     
-    <ng-container *ngIf="!aceptarReservaBoolean">
+    <div class="flex items-center justify-center p-10" *ngIf="devolverReservaBoolean">
+      <form [formGroup]="formularioDevolverReserva" (ngSubmit)="devolverReserva()" class="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <h2 class="text-2xl font-bold mb-4">Devolucion</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700">Observacion</label>
+          <input formControlName="observacion" type="text" class="w-full px-3 py-2 border rounded" placeholder="Observacion"/>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Devolver reserva</button>
+      </form>
+    </div>
+
+    <ng-container *ngIf="!aceptarReservaBoolean&&!devolverReservaBoolean">
       <h2 class="text-3xl font-semibold mb-4 text-center">Gestión de reservas</h2>
       <p class="text-sm text-gray-600 text-center mb-6">Aqui puedes gestionar las reservas de la biblioteca.</p>
-
-
-      <!-- No hay reservas disponibles -->
 
       <!-- Hay reservas disponibles -->
       <h2 class="text-3xl font-semibold mb-4">Reservas por aceptar</h2>
@@ -43,7 +51,7 @@
             <p class="text-gray-700">Fecha solicitud: {{solicitud.fechaDeSolicitud}}</p>
             <p class="text-gray-700">Libro: {{solicitud.libro.titulo}} </p>
             <button (click)="iniciarAceptarReserva(solicitud)" class="mt-2 mr-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Aceptar</button>
-            <button (click)="eliminarLibro()" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Rechazar</button> 
+            <button (click)="eliminarReserva(solicitud.idSolicitud)" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Rechazar</button> 
         </div>
       </div>
 
@@ -57,7 +65,7 @@
             <p class="text-gray-700">Fecha solicitud: {{solicitud.fechaDeSolicitud}}</p>
             <p class="text-gray-700">Fecha devolucion: {{solicitud.fechaDeDevolucion}}</p>
             <p class="text-gray-700">Libro: {{solicitud.libro.titulo}} </p>
-            <button (click)="iniciarAceptarReserva(solicitud)" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Devuelto</button>
+            <button (click)="iniciarDevolverReserva(solicitud)" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Devuelto</button>
         </div>
       </div>
     </ng-container>

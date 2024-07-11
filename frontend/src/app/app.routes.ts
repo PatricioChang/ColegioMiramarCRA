@@ -18,8 +18,8 @@ export const routes: Routes = [
     {path:'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
     {path: 'listaDeLibrosDigitales', component: ListaDeLibrosDigitalesComponent},
     {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
-    {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent},
-    {path: 'gestionarReservas', component:GestionarReservasComponent},
+    {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent, canActivate: [authGuard]},
+    {path: 'gestionarReservas', component:GestionarReservasComponent, canActivate: [authGuard]},
     {path: '', redirectTo: '/inicio', pathMatch: 'full'},
     {path: '**',redirectTo: '/inicio'}
 ];

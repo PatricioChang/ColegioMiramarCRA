@@ -5,6 +5,9 @@ import { Solicitud } from '../models/Solicitud';
 import { SolicitudService } from '../services/solicitud.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AceptarSolicitudDto } from '../DTO/aceptarSolicitud.dto';
+import { DevolverLibroDto } from '../DTO/devolverLibro.dto';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-gestionarReservas',
@@ -52,9 +55,49 @@ export class GestionarReservasComponent implements OnInit {
    this.solicitud= solicitud
   }
 
-  public eliminarLibro(){
+  public iniciarDevolverReserva(solicitud: Solicitud){
+    this. devolverReservaBoolean=true
+    this.solicitud= solicitud
+   }
 
+  public eliminarReserva(idSolicitud: number){
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, rechazar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.solicitudService.eliminarSolicitud(idSolicitud).subscribe(() => {
+          Swal.fire({
+            title: 'Rechazado!',
+            text: "La solicitud se ha sido eliminado.",
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+        })
+          this.cargarSolicitudes()
+        })
+      }
+    })
   }
+
+  public devolverReserva(){
+    const devolverLibroDto: DevolverLibroDto= this.formularioDevolverReserva.value
+    this.solicitudService.devolverLibro(this.solicitud.idSolicitud, devolverLibroDto).subscribe(response=>{
+      console.log(response)
+      if(response){
+        alert('¡Se ha devuelto la reserva!')
+        this.formularioReserva.reset()
+        this.devolverReservaBoolean=false
+        this.cargarSolicitudes()
+      }
+    })
+  }
+  
 
   public aceptarReserva(){
     if(this.formularioReserva.valid){
@@ -67,6 +110,7 @@ export class GestionarReservasComponent implements OnInit {
             alert('¡Se ha aceptado la reserva!')
             this.formularioReserva.reset()
             this.aceptarReservaBoolean=false
+            this.cargarSolicitudes()
           }
         })
       }else{
