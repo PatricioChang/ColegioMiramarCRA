@@ -19,12 +19,15 @@ export class InicioPersonalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.solicitudService.buscarSolicitudes().subscribe(response=>{
-      const solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion)
-      if(solicitudesPorAceptar.length>0){
-        this.toastrService.info('¡Hay solicitudes por aceptar!', 'Notificación');
-      }
-    })
+    if(!sessionStorage.getItem('notificacionSolicitud')){
+      this.solicitudService.buscarSolicitudesPorDevolver().subscribe(response=>{
+        const solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion)
+        if(solicitudesPorAceptar.length>0){
+          this.toastrService.info('¡Hay solicitudes por aceptar!', 'Notificación');
+          sessionStorage.setItem('notificacionSolicitud','true')
+        }
+      })
+    }
   }
 
   public gestionarListaDeLibros(): void{
@@ -33,6 +36,10 @@ export class InicioPersonalComponent implements OnInit {
 
   public gestionarReservas(){
     this.router.navigateByUrl('gestionarReservas')
+  }
+
+  public verEstadisticas(){
+    this.router.navigateByUrl('verEstadisticas')
   }
 
   public logOut(): void{

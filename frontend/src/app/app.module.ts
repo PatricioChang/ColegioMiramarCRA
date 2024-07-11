@@ -18,10 +18,11 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
@@ -30,8 +31,9 @@ import { ToastrModule } from 'ngx-toastr';
     ListaDeLibrosDigitalesComponent,
     VerLibroDigitalComponent,
     GestionarListaDeLibrosComponent,
-    GestionarReservasComponent
-  ],
+    GestionarReservasComponent,
+    EstadisticasComponent
+   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
@@ -44,9 +46,12 @@ import { ToastrModule } from 'ngx-toastr';
     BrowserAnimationsModule,
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
-    })
+    }),
+    BaseChartDirective
   ],
-  providers: [],
+  providers: [
+    provideCharts(withDefaultRegisterables())
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

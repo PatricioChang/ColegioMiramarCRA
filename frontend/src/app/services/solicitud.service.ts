@@ -18,6 +18,10 @@ export class SolicitudService {
     return this.http.get<Solicitud[]>(this.apiUrl)
   }
 
+  public buscarSolicitudesPorDevolver(): Observable<Solicitud[]>{
+    return this.http.get<Solicitud[]>(this.apiUrl + "/solicitudesPorDevolver")
+  }
+
   public aceptarSolicitud(idSolicitud: number, aceptarSolicitudDto: AceptarSolicitudDto): Observable<Solicitud>{
     return this.http.put<Solicitud>(this.apiUrl + "/aceptarSolicitud/" + idSolicitud, aceptarSolicitudDto)
   }

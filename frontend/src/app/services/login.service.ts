@@ -41,6 +41,7 @@ constructor(
   public logOut(): boolean{
     if(sessionStorage.getItem('token')){
       sessionStorage.removeItem('token')
+      sessionStorage.removeItem('notificacionSolicitud')
       return true
     }
     return false

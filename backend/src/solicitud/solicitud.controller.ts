@@ -11,8 +11,13 @@ export class SolicitudController {
     ){}
 
     @Get()
-    async buscarTodos(): Promise<Solicitud[]> {
+    async buscarSolicitudes(): Promise<Solicitud[]> {
     return this.solicitudService.buscarSolicitudes()
+    }
+
+    @Get('solicitudesPorDevolver')
+    async buscarSolicitudesPorDevolver(): Promise<Solicitud[]> {
+    return this.solicitudService.buscarSolicitudesPorDevolver()
     }
 
     @Put('aceptarSolicitud/:idSolicitud')

@@ -13,6 +13,10 @@ export class SolicitudService {
     ) {}
 
     async buscarSolicitudes(): Promise<Solicitud[]> {
+        return await this.solicitudRepository.createQueryBuilder('solicitud').leftJoinAndSelect('solicitud.libro','libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()
+    }
+
+    async buscarSolicitudesPorDevolver(): Promise<Solicitud[]> {
         return await this.solicitudRepository.createQueryBuilder('solicitud').leftJoinAndSelect('solicitud.libro','libro').where('solicitud.devuelto = :devuelto', { devuelto: 0 }).getMany()
     }
 

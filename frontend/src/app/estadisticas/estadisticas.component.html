@@ -1,0 +1,69 @@
+<body class="bg-gray-100">
+
+  <!-- Barra de navegación -->
+  <nav class="bg-blue-900 text-white p-4">
+    <div class="container mx-auto flex justify-between items-center">
+      <h1 class="text-xl font-bold">Colegio Miramar</h1>
+      <ul class="flex space-x-4">
+        <li><a href="inicioPersonal" class="hover:underline">Inicio</a></li>
+        <li><a href="" class="hover:underline" (click)="logOut()">LogOut</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Contenido principal -->
+  <div class="container mx-auto py-10">
+    <h2 class="text-3xl font-bold mb-8 text-center">Estadísticas de la Biblioteca</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Total de Libros -->
+      <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+        <h3 class="text-2xl font-semibold mb-4">Total de Libros</h3>
+        <p class="text-4xl">{{ totalLibros }}</p>
+      </div>
+
+      <!-- Libros Prestados -->
+      <div class="bg-white shadow-lg rounded-lg p-6 text-center">
+        <h3 class="text-2xl font-semibold mb-4">Libros Prestados</h3>
+        <p class="text-4xl">{{ librosPrestados }}</p>
+      </div>
+
+    </div>
+
+    <!-- Selector de año -->
+    <div class="mb-8 text-center mt-8">
+      <label for="year" class="text-xl mr-4">Seleccionar Año:</label>
+      <select id="year" (change)="alCambiarDeAnio($event)" class="p-2 border rounded">
+        <option *ngFor="let anio of anios" [value]="anio">{{ anio }}</option>
+      </select>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Solicitudes por Mes -->
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-2xl font-semibold mb-4 text-center">Solicitudes por Mes</h3>
+        <canvas baseChart 
+                [datasets]="solicitudesPorMes.datasets" 
+                [labels]="solicitudesPorMes.labels"
+                [options]="barChartOptions" 
+                [legend]="barChartLegend" 
+                [type]="barChartType">
+        </canvas>
+      </div>
+
+      <!-- Géneros Más Solicitados -->
+      <div class="bg-white shadow-lg rounded-lg p-6">
+        <h3 class="text-2xl font-semibold mb-4 text-center">Géneros Más Solicitados</h3>
+        <canvas baseChart 
+                [datasets]="generosMasSolicitados.datasets" 
+                [labels]="generosMasSolicitados.labels"
+                [options]="pieChartOptions" 
+                [legend]="pieChartLegend" 
+                [type]="pieChartType">
+        </canvas>
+      </div>
+
+    </div>
+  </div>
+</body>

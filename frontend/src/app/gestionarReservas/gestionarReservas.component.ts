@@ -44,7 +44,7 @@ export class GestionarReservasComponent implements OnInit {
 
 
   public cargarSolicitudes(){
-    this.solicitudService.buscarSolicitudes().subscribe(response=>{
+    this.solicitudService.buscarSolicitudesPorDevolver().subscribe(response=>{
       this.solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion)
       this.solicitudesPorDevolver= response.filter(solicitud => solicitud.fechaDeDevolucion)
     })

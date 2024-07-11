@@ -9,6 +9,7 @@ import { ListaDeLibrosDigitalesComponent } from './listaDeLibrosDigitales/listaD
 import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.component';
 import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
 import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
+import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 
 export const routes: Routes = [
     {path: 'inicio', component: InicioComponent},
@@ -20,6 +21,7 @@ export const routes: Routes = [
     {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
     {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent, canActivate: [authGuard]},
     {path: 'gestionarReservas', component:GestionarReservasComponent, canActivate: [authGuard]},
+    {path: 'verEstadisticas', component: EstadisticasComponent, canActivate: [authGuard]},
     {path: '', redirectTo: '/inicio', pathMatch: 'full'},
     {path: '**',redirectTo: '/inicio'}
 ];
