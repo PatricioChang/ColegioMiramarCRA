@@ -31,12 +31,12 @@
 
 
       <!-- No hay reservas disponibles -->
-      <div *ngIf="solicitudes.length == 0" class=" text-center text-gray-500">No hay reservas disponibles.</div>
 
       <!-- Hay reservas disponibles -->
       <h2 class="text-3xl font-semibold mb-4">Reservas por aceptar</h2>
-      <div *ngIf="solicitudes.length > 0" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-        <div *ngFor="let solicitud of solicitudes" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition">
+      <div *ngIf="solicitudesPorAceptar.length == 0" class=" text-center text-gray-500">No hay reservas por aceptar.</div>
+      <div *ngIf="solicitudesPorAceptar.length > 0" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+        <div *ngFor="let solicitud of solicitudesPorAceptar" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition">
             <h3 class="text-xl font-bold mb-2">Nombre: {{solicitud.nombreSolicitante}}</h3>
             <p class="text-gray-700">Curso: {{solicitud.cursoDelSolicitante}}</p>
             <p *ngIf="solicitud.rutSolicitante" class="text-gray-700">Rut: {{solicitud.rutSolicitante}}</p>
@@ -48,15 +48,16 @@
       </div>
 
       <h2 class="text-3xl font-semibold mb-4">Reservas por devolver</h2>
-      <div *ngIf="solicitudes.length > 0" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let solicitud of solicitudes" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition">
+      <div *ngIf="solicitudesPorDevolver.length == 0" class=" text-center text-gray-500">No hay reservas por devolver.</div>
+      <div *ngIf="solicitudesPorDevolver.length > 0" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div *ngFor="let solicitud of solicitudesPorDevolver" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition">
             <h3 class="text-xl font-bold mb-2">Nombre: {{solicitud.nombreSolicitante}}</h3>
             <p class="text-gray-700">Curso: {{solicitud.cursoDelSolicitante}}</p>
             <p *ngIf="solicitud.rutSolicitante" class="text-gray-700">Rut: {{solicitud.rutSolicitante}}</p>
             <p class="text-gray-700">Fecha solicitud: {{solicitud.fechaDeSolicitud}}</p>
+            <p class="text-gray-700">Fecha devolucion: {{solicitud.fechaDeDevolucion}}</p>
             <p class="text-gray-700">Libro: {{solicitud.libro.titulo}} </p>
-            <button (click)="iniciarAceptarReserva(solicitud)" class="mt-2 mr-2 bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded">Aceptar</button>
-            <button (click)="eliminarLibro()" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Rechazar</button> 
+            <button (click)="iniciarAceptarReserva(solicitud)" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Devuelto</button>
         </div>
       </div>
     </ng-container>

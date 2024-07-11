@@ -21,6 +21,9 @@ export class GestionarReservasComponent implements OnInit {
     this.formularioReserva= formBuilder.group({
       fechaDeDevolucion: ['', Validators.required]
     })
+    this.formularioDevolverReserva= formBuilder.group({
+      observacion: ['']
+    })
   }
 
   ngOnInit() {
@@ -28,14 +31,19 @@ export class GestionarReservasComponent implements OnInit {
   }
 
   public aceptarReservaBoolean: boolean=false
+  public devolverReservaBoolean: boolean=false
   public formularioReserva: FormGroup
+  public formularioDevolverReserva: FormGroup
   public solicitud: Solicitud= new Solicitud(0,'','','',false,new Libro(0,'','',0,'',[],''))
   public libros: Libro[]=[]
-  public solicitudes: Solicitud[]=[]
+  public solicitudesPorAceptar: Solicitud[]=[]
+  public solicitudesPorDevolver: Solicitud[]=[]
+
 
   public cargarSolicitudes(){
     this.solicitudService.buscarSolicitudes().subscribe(response=>{
-      this.solicitudes=response
+      this.solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion)
+      this.solicitudesPorDevolver= response.filter(solicitud => solicitud.fechaDeDevolucion)
     })
   }
 
