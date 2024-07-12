@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "node server.js",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "heroku-postbuild": "ng build --prod"
   },
   "private": true,
   "dependencies": {
@@ -21,11 +22,13 @@
     "@sweetalert2/ngx-sweetalert2": "^12.4.0",
     "bcrypt": "^5.1.1",
     "chart.js": "^4.4.3",
+    "express": "^4.19.2",
     "jwt-decode": "^4.0.0",
     "ng-multiselect-dropdown": "^1.0.0",
     "ng2-charts": "^6.0.1",
     "ng2-pdf-viewer": "^10.2.2",
     "ngx-toastr": "^19.0.0",
+    "path": "^0.12.7",
     "pdfjs-dist": "^4.4.168",
     "rxjs": "~7.8.0",
     "sweetalert2": "^11.6.13",
@@ -47,5 +50,9 @@
     "postcss": "^8.4.39",
     "tailwindcss": "^3.4.4",
     "typescript": "~5.4.2"
+  },
+  "engines": {
+    "node": "20.15.0",
+    "npm": "10.7.0"
   }
 }
