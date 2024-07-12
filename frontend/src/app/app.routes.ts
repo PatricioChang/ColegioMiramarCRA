@@ -10,15 +10,17 @@ import { VerLibroDigitalComponent } from './verLibroDigital/verLibroDigital.comp
 import { GestionarListaDeLibrosComponent } from './gestionarListaDeLibros/gestionarListaDeLibros.component';
 import { GestionarReservasComponent } from './gestionarReservas/gestionarReservas.component';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
+import { EstadisticasUsuarioComponent } from './estadisticasUsuario/estadisticasUsuario.component';
 
 export const routes: Routes = [
     {path: 'inicio', component: InicioComponent},
     {path: 'iniciarSesion', component: IniciarSesionComponent},
     {path: 'inicioPersonal', component: InicioPersonalComponent, canActivate: [authGuard]},
     {path: 'listaDeLibros', component: ListaDeLibrosComponent},
-    {path:'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
+    {path: 'solicitudLibro/:idLibro', component: SolicitudLibroComponent},
     {path: 'listaDeLibrosDigitales', component: ListaDeLibrosDigitalesComponent},
     {path: 'verLibroDigital/:idLibro', component: VerLibroDigitalComponent},
+    {path: 'estadisticasUsuario', component: EstadisticasUsuarioComponent},
     {path: 'gestionarListaDeLibros', component: GestionarListaDeLibrosComponent, canActivate: [authGuard]},
     {path: 'gestionarReservas', component:GestionarReservasComponent, canActivate: [authGuard]},
     {path: 'verEstadisticas', component: EstadisticasComponent, canActivate: [authGuard]},

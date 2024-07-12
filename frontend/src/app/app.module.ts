@@ -20,9 +20,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { EstadisticasUsuarioComponent } from './estadisticasUsuario/estadisticasUsuario.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     IniciarSesionComponent,
     InicioPersonalComponent,
@@ -32,7 +33,8 @@ import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2
     VerLibroDigitalComponent,
     GestionarListaDeLibrosComponent,
     GestionarReservasComponent,
-    EstadisticasComponent
+    EstadisticasComponent,
+      EstadisticasUsuarioComponent
    ],
   imports: [
     BrowserModule,

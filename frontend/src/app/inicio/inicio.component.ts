@@ -20,4 +20,8 @@ export class InicioComponent implements OnInit {
   public listaDeLibrosDigitales(): void{
     this.router.navigateByUrl('listaDeLibrosDigitales')
   }
+
+  public estadisticasUsuario(): void{
+    this.router.navigateByUrl('estadisticasUsuario')
+  }
 }

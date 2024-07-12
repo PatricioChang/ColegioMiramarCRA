@@ -34,6 +34,14 @@ export class EstadisticasComponent implements OnInit {
       this.cargarDatos(this.añoSeleccionado)
     })
   }
+
+  public añoSeleccionado: number = new Date().getFullYear()
+  public anios: number[] = []
+  public totalLibros: number = 0
+  public librosPrestados: number = 0
+  public solicitudesPorMes: { datasets: ChartDataset[], labels:  string[] } = { datasets: [], labels: [] }
+  public generosMasSolicitados: { datasets: ChartDataset[], labels: string[] } = { datasets: [], labels: [] }
+  public usuariosActivos: number = 0
   
   public cargarDatos(anio: number): void {
     this.librosService.buscarLibros().subscribe(response => {
@@ -94,14 +102,6 @@ export class EstadisticasComponent implements OnInit {
     this.añoSeleccionado = añoSeleccionado
     this.cargarDatos(añoSeleccionado)
   }
-
-  public añoSeleccionado: number = new Date().getFullYear()
-  public anios: number[] = []
-  public totalLibros: number = 0
-  public librosPrestados: number = 0
-  public solicitudesPorMes: { datasets: ChartDataset[], labels:  string[] } = { datasets: [], labels: [] }
-  public generosMasSolicitados: { datasets: ChartDataset[], labels: string[] } = { datasets: [], labels: [] }
-  public usuariosActivos: number = 0
 
   public barChartOptions: ChartOptions = {
     responsive: true,

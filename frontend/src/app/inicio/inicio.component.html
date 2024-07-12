@@ -17,7 +17,7 @@
     </header>
     
     <section class="mt-8">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <div class="bg-white shadow rounded-lg p-4">
           <h2 class="text-2xl font-semibold mb-2">Lista de Libros</h2>
           <p class="text-sm text-gray-600">Explora nuestra colección de libros físicos disponibles para reserva.</p>
@@ -27,6 +27,11 @@
           <h2 class="text-2xl font-semibold mb-2">Libros Digitales</h2>
           <p class="text-sm text-gray-600">Lee libros digitales directamente en tu navegador.</p>
           <button (click)="listaDeLibrosDigitales()" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">ver libros</button> 
+        </div>
+        <div class="bg-white shadow rounded-lg p-4">
+          <h2 class="text-2xl font-semibold mb-2">Recomendaciones</h2>
+          <p class="text-sm text-gray-600">Ve nuestras recomendaciones y los libros más pedidos de la semana.</p>
+          <button (click)="estadisticasUsuario()" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">ver libros</button> 
         </div>
       </div>
     </section>
