@@ -7,4 +7,5 @@ export interface CrearEditarLibroDto {
    editorial: string
    libro_Generos: Libro_Genero[]
    ubicacion: string
+   pdf?: string
   }

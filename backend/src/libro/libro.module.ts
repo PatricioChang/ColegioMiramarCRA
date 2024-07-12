@@ -7,9 +7,10 @@ import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
 import { Genero } from 'src/entities/Genero.entity';
 import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
+import { Pdf } from 'src/entities/Pdf.entity';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Libro, Libro_Genero, Genero, Solicitud, Usuario])],
+    imports: [TypeOrmModule.forFeature([Libro, Libro_Genero, Genero, Solicitud, Usuario, Pdf])],
     controllers: [LibroController],
     providers: [LibroService],
 })

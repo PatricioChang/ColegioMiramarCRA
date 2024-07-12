@@ -1,9 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { LibroService } from './libro.service';
 import { Libro } from 'src/entities/Libro.entity';
 import { CrearEditarLibroDto } from './DTO/CrearLibro.dto';
 import { SolicitudLibroDto } from './DTO/SolicitudLibro.dto';
 import { Solicitud } from 'src/entities/Solicitud.entity';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
 
 @Controller('libro')
 export class LibroController { 
@@ -45,8 +47,10 @@ constructor(private readonly libroService: LibroService) {}
   }
 
   @Put('editarLibro/:idLibro')
-  async editarLibro(@Param() idLibro: number, @Body() crearEditarLibroDto: CrearEditarLibroDto) {
-    return this.libroService.editarLibro(idLibro, crearEditarLibroDto)
+  @UseInterceptors(FileInterceptor('pdf'))
+  update(@Param() idLibro: number,@Body() crearEditarLibroDto: CrearEditarLibroDto, @UploadedFile() file: Express.Multer.File) {
+    console.log(crearEditarLibroDto)
+    return this.libroService.editarLibro(idLibro, crearEditarLibroDto, file)
   }
 
   @Delete(':id')

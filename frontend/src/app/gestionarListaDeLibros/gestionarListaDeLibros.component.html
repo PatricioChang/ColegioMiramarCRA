@@ -57,39 +57,49 @@
     <!-- Formulario para editar libro -->
     <div class="flex items-center justify-center p-10" *ngIf="editarLibroBoolean">
       <form [formGroup]="formularioAgregarEditar" (ngSubmit)="editarLibro()" class="bg-white p-6 rounded shadow-md w-full max-w-sm">
-        <h2 class="text-2xl font-bold mb-4">Editar Libro</h2>
-        <div class="mb-4">
-          <label class="block text-gray-700">Titulo</label>
-          <input formControlName="titulo" type="text" class="w-full px-3 py-2 border rounded" placeholder="Titulo" />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Autor</label>
-          <input formControlName="autor" type="text" class="w-full px-3 py-2 border rounded" placeholder="Autor" />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Ubicacion</label>
-          <input formControlName="ubicacion" type="text" class="w-full px-3 py-2 border rounded" placeholder="Ubicacion" />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Año</label>
-          <input formControlName="anio" type="number" class="w-full px-3 py-2 border rounded" placeholder="Año" />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Editorial</label>
-          <input formControlName="editorial" type="text" class="w-full px-3 py-2 border rounded" placeholder="Editorial" />
-        </div>
-        <div class="mb-4">
-          <label class="block text-gray-700">Generos</label>
-          <ng-multiselect-dropdown class="w-full px-3 py-2 rounded"
-            placeholder="Generos"
-            [settings]="dropdownSettings"
-            [data]="generos"
-            [(ngModel)]="generosLibro"
-            formControlName="generos"
-          >
-          </ng-multiselect-dropdown>
-        </div>
-        <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded mb-4">Editar libro</button>
+        <ng-container *ngIf="pdfBoolean">
+          <h2 class="text-2xl font-bold mb-4">Editar Libro</h2>
+          <div class="mb-4">
+            <label class="block text-gray-700">Titulo</label>
+            <input formControlName="titulo" type="text" class="w-full px-3 py-2 border rounded" placeholder="Titulo" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Autor</label>
+            <input formControlName="autor" type="text" class="w-full px-3 py-2 border rounded" placeholder="Autor" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Ubicacion</label>
+            <input formControlName="ubicacion" type="text" class="w-full px-3 py-2 border rounded" placeholder="Ubicacion" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Año</label>
+            <input formControlName="anio" type="number" class="w-full px-3 py-2 border rounded" placeholder="Año" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Editorial</label>
+            <input formControlName="editorial" type="text" class="w-full px-3 py-2 border rounded" placeholder="Editorial" />
+          </div>
+          <div class="mb-4">
+            <label class="block text-gray-700">Generos</label>
+            <ng-multiselect-dropdown class="w-full px-3 py-2 rounded"
+              placeholder="Generos"
+              [settings]="dropdownSettings"
+              [data]="generos"
+              [(ngModel)]="generosLibro"
+              formControlName="generos"
+            >
+            </ng-multiselect-dropdown>
+          </div>
+          <button type="submit" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white py-2 rounded mb-4">Editar libro</button>
+        </ng-container>
+        <ng-container *ngIf="!pdfBoolean">
+          <h2 class="text-2xl font-bold mb-4">Agregar PDF</h2>
+          <div class="mb-4">
+            <label class="block text-gray-700">PDF</label>
+            <input type="file" (change)="onFileSelected($event)" class="w-full px-3 py-2 border rounded" />
+          </div> 
+          <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Agregar PDF</button>
+        </ng-container>
       </form>
     </div>
     
@@ -123,9 +133,9 @@
               <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro_Generos.indexOf(libroGenero) < libro.libro_Generos.length - 1">, </span>
             </ng-container>
           </p>
-          <button (click)="iniciarEditarLibro(libro)" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
+          <button (click)="iniciarEditarLibro(libro, 'editar')" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
           <button (click)="eliminarLibro(libro.idLibro)" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar</button> 
-          <button (click)="eliminarLibro(libro.idLibro)" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button> 
+          <button (click)="iniciarEditarLibro(libro, 'pdf')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button>  
         </div>
       </div>
     </ng-container>

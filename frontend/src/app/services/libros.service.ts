@@ -38,11 +38,11 @@ constructor(private http: HttpClient) { }
     return this.http.post<boolean>(this.apiUrl, solicitudLibroDto)
   }
 
-  public agregarLibro(CrearEditarLibroDto: CrearEditarLibroDto): Observable<Libro> {
-    return this.http.post<Libro>(this.apiUrl + '/crearLibro', CrearEditarLibroDto)
+  public agregarLibro(crearEditarLibroDto: CrearEditarLibroDto): Observable<Libro> {
+    return this.http.post<Libro>(this.apiUrl + '/crearLibro', crearEditarLibroDto)
   }
 
-  public editarLibro(idLibro: number, crearEditarLibroDto: CrearEditarLibroDto): Observable<Libro> {
+  public editarLibro(idLibro: number, crearEditarLibroDto: FormData): Observable<Libro> {
     return this.http.put<Libro>(this.apiUrl + '/editarLibro/' + idLibro, crearEditarLibroDto)
   }
 

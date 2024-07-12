@@ -20,9 +20,5 @@ export class CrearEditarLibroDto {
   @IsNotEmpty()
   ubicacion: string;
 
-
-  @IsArray()
-  @ArrayNotEmpty()
-  @IsNumber({}, { each: true })
-  libro_Generos: number[]
+  libro_Generos: { idGenero: number, nombre: string }[];
 }

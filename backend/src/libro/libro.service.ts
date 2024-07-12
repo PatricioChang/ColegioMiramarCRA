@@ -8,50 +8,81 @@ import { Solicitud } from 'src/entities/Solicitud.entity';
 import { Usuario } from 'src/entities/Usuario.entity';
 import { CrearEditarLibroDto } from './DTO/CrearLibro.dto';
 import { Libro_Genero } from 'src/entities/Libro_Genero.entity';
+import { Pdf } from 'src/entities/Pdf.entity';
 
 @Injectable()
 export class LibroService {
     constructor(
-    @InjectRepository(Libro)
-    private libroRepository: Repository<Libro>,
-    @InjectRepository(Solicitud)
-    private solicitudRepository: Repository<Solicitud>,
-    @InjectRepository(Usuario)
-    private usuarioRepository: Repository<Usuario>,
-    @InjectRepository(Genero)
-    private generoRepository: Repository<Genero>,
-    @InjectRepository(Libro_Genero)
-    private libro_GeneroRepository: Repository<Libro_Genero>
+        @InjectRepository(Libro)
+        private libroRepository: Repository<Libro>,
+        @InjectRepository(Solicitud)
+        private solicitudRepository: Repository<Solicitud>,
+        @InjectRepository(Usuario)
+        private usuarioRepository: Repository<Usuario>,
+        @InjectRepository(Genero)
+        private generoRepository: Repository<Genero>,
+        @InjectRepository(Libro_Genero)
+        private libro_GeneroRepository: Repository<Libro_Genero>,
+        @InjectRepository(Pdf)
+        private pdfRepository: Repository<Pdf>
     ) {}
 
     async crearLibro(crearEditarLibroDto: CrearEditarLibroDto): Promise<Libro> {
         const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearEditarLibroDto
 
-        const libro = this.libroRepository.create({
-            titulo,
-            autor,
-            anio,
-            editorial,
-            ubicacion
-        })
+        let generosIds: number[] = []
+        if (typeof libro_Generos === 'string') {
+            try {
+                const generosArray = JSON.parse(libro_Generos)
+                if (Array.isArray(generosArray)) {
+                    generosIds = generosArray.map((genero: any) => genero.idGenero)
+                }
+            } catch (error) {
+                throw new Error('Error al parsear los géneros del libro')
+            }
+        } else if (Array.isArray(libro_Generos)) {
+            generosIds = libro_Generos.map((genero: any) => genero.idGenero)
+        }
+
+        const libro = new Libro()
+        libro.titulo = titulo
+        libro.autor = autor
+        libro.anio = anio
+        libro.editorial = editorial
+        libro.ubicacion = ubicacion
 
         await this.libroRepository.save(libro)
 
-        if (libro_Generos && libro_Generos.length > 0) {
-        const generos = await this.generoRepository.findByIds(libro_Generos)
-            for (const genero of generos) {
-                const libroGenero = new Libro_Genero()
-                libroGenero.libro = libro
-                libroGenero.genero = genero
-                await this.libro_GeneroRepository.save(libroGenero)
-            }
-        }
+        const generos = await this.generoRepository.findByIds(generosIds)
+
+        const nuevasRelaciones = generos.map((genero) => {
+            const libroGenero = new Libro_Genero()
+            libroGenero.libro = libro
+            libroGenero.genero = genero
+            return libroGenero
+        })
+
+        await this.libro_GeneroRepository.save(nuevasRelaciones)
 
         return libro
     }
 
-    async editarLibro(idLibro: number, crearEditarLibroDto: CrearEditarLibroDto): Promise<Libro> {
+    async editarLibro(idLibro: number, crearEditarLibroDto: CrearEditarLibroDto, file: Express.Multer.File): Promise<Libro> {
         const { titulo, autor, anio, editorial, ubicacion, libro_Generos } = crearEditarLibroDto
+
+        let generosIds: number[] = []
+        if (typeof libro_Generos === 'string') {
+            try {
+                const generosArray = JSON.parse(libro_Generos)
+                if (Array.isArray(generosArray)) {
+                    generosIds = generosArray.map((genero: any) => genero.idGenero)
+                }
+            } catch (error) {
+                throw new Error('Error al parsear los géneros del libro')
+            }
+        } else if (Array.isArray(libro_Generos)) {
+            generosIds = libro_Generos.map((genero: any) => genero.idGenero)
+        }
 
         const libro = await this.libroRepository.findOneById(idLibro)
 
@@ -65,27 +96,33 @@ export class LibroService {
         libro.editorial = editorial
         libro.ubicacion = ubicacion
 
+        if(file){
+            const pdf = new Pdf()
+            pdf.nombreArchivo = file.originalname
+            pdf.data = file.buffer
+            pdf.libro = libro
+
+            await this.pdfRepository.save(pdf)
+        }
+        
         await this.libroRepository.save(libro)
 
-        if (libro_Generos && libro_Generos.length > 0) {
-            const generos = await this.generoRepository.findByIds(libro_Generos)
+        await this.libro_GeneroRepository.delete({ libro })
 
-            await this.libro_GeneroRepository.delete({ libro: libro })
+        const generos = await this.generoRepository.findByIds(generosIds)
 
-            const nuevasRelaciones = generos.map((genero) => {
-                const libroGenero = new Libro_Genero()
-                libroGenero.libro = libro
-                libroGenero.genero = genero
-                return libroGenero
-            })
+        const nuevasRelaciones = generos.map((genero) => {
+            const libroGenero = new Libro_Genero()
+            libroGenero.libro = libro
+            libroGenero.genero = genero
+            return libroGenero
+        })
 
-            await this.libro_GeneroRepository.save(nuevasRelaciones)
-        } else {
-            await this.libro_GeneroRepository.delete({ libro: libro })
-        }
+        await this.libro_GeneroRepository.save(nuevasRelaciones)
 
         return libro
     }
+
 
     async eliminarLibro(idLibro: number): Promise<void> {
         const libro = await this.libroRepository.findOneById(idLibro)
