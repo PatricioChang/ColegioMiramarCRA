@@ -170,35 +170,34 @@ export class LibroService {
         return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.solicitudes', 'solicitud').where('libro.idLibro = :idLibro', { idLibro: idLibroBuscado }).andWhere('solicitud.devuelto = :devuelto', { devuelto: false }).getOne()
     }
 
-    async solicitarLibro(solicitudLibroDto: SolicitudLibroDto): Promise<Solicitud>{
+    async solicitarLibro(solicitudLibroDto: SolicitudLibroDto): Promise<Solicitud> {
         const libroSolicitado = await this.libroRepository.findOne({ where: { idLibro: solicitudLibroDto.idLibro } })
         if (!libroSolicitado) {
-            throw new Error('Libro no encontrado')
+          throw new Error('Libro no encontrado')
         }
-
+      
         const usuario = await this.usuarioRepository.findOne({ where: { idUsuario: 1 } })
-        
         if (!usuario) {
-            throw new Error('Usuario no encontrado')
+          throw new Error('Usuario no encontrado')
         }
-
-        const fechaDeSolicitud = new Date(solicitudLibroDto.fechaDeSolicitud)
+      
+        const fechaDeSolicitud = solicitudLibroDto.fechaDeSolicitud ? new Date(solicitudLibroDto.fechaDeSolicitud) : new Date()
         const fechaDeDevolucion = solicitudLibroDto.fechaDeDevolucion ? new Date(solicitudLibroDto.fechaDeDevolucion) : null
-
+      
         const nuevaSolicitud = this.solicitudRepository.create({
-        rutSolicitante: solicitudLibroDto.rut,
-        nombreSolicitante: solicitudLibroDto.name,
-        cursoDelSolicitante: solicitudLibroDto.grade,
-        fechaDeSolicitud: fechaDeSolicitud.toISOString().split('T')[0],
-        horaDeSolicitud: new Date().toLocaleTimeString(),
-        devuelto: false,
-        fechaDeDevolucion: fechaDeDevolucion ? fechaDeDevolucion.toISOString().split('T')[0] : null,
-        horaDeDevolucion: '',
-        observacion: '',
-        libro: libroSolicitado,
-        idUsuario: usuario
+          rutSolicitante: solicitudLibroDto.rut,
+          nombreSolicitante: solicitudLibroDto.name,
+          cursoDelSolicitante: solicitudLibroDto.grade,
+          fechaDeSolicitud: fechaDeSolicitud.toISOString().split('T')[0],
+          horaDeSolicitud: fechaDeSolicitud.toLocaleTimeString(),
+          devuelto: false,
+          fechaDeDevolucion: fechaDeDevolucion ? fechaDeDevolucion.toISOString().split('T')[0] : null,
+          horaDeDevolucion: '',
+          observacion: '',
+          libro: libroSolicitado,
+          idUsuario: usuario
         })
-        
+      
         return this.solicitudRepository.save(nuevaSolicitud)
     }
 }
