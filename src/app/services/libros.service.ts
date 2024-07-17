@@ -12,7 +12,7 @@ export class LibrosService {
 
 constructor(private http: HttpClient) { }
 
-  private apiUrl= 'http://localhost:3000/libro'
+  private apiUrl= 'https://colegiomiramarcrabackend-966dcdc0a6ed.herokuapp.com/libro'
 
   public buscarLibros(): Observable<Libro[]>{
     return this.http.get<Libro[]>(this.apiUrl + '/libros')

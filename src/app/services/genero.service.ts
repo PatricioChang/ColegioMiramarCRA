@@ -9,7 +9,7 @@ import { Genero } from '../models/Genero';
 export class GeneroService {
   constructor(private http: HttpClient) { }
 
-  private apiUrl= 'http://localhost:3000/genero'
+  private apiUrl= 'https://colegiomiramarcrabackend-966dcdc0a6ed.herokuapp.com/genero'
 
   public buscarGeneros(): Observable<Genero[]>{
     return this.http.get<Genero[]>(this.apiUrl + '/generos')
