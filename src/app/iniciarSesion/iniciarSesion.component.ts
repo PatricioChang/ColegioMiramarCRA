@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { LoginDto } from '../DTO/login.dto';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-iniciarSesion',
@@ -32,14 +33,29 @@ export class IniciarSesionComponent implements OnInit {
       const loginDto: LoginDto = {user: this.formLogIn.get('user')!.value, password: this.formLogIn.get('password')?.value}
       this.loginService.login(loginDto).subscribe(response=>{
         if(response && response.success){
-          alert("¡Login Correcto!")
+          Swal.fire({
+            title: '¡Login correcto!',
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
           this.router.navigateByUrl('inicioPersonal')
         }else{
-          alert(response.message)
+          Swal.fire({
+            title: '¡'+response.message+'!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
         }
       })
     }else{
-      alert("¡Rellene los datos!")
+      Swal.fire({
+        title: '¡Rellene los datos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
     this.formLogIn.reset()
   }

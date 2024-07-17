@@ -90,7 +90,12 @@ export class GestionarReservasComponent implements OnInit {
     this.solicitudService.devolverLibro(this.solicitud.idSolicitud, devolverLibroDto).subscribe(response=>{
       console.log(response)
       if(response){
-        alert('¡Se ha devuelto la reserva!')
+        Swal.fire({
+          title: '¡Se ha devuelto la reserva!',
+          icon: 'success',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
         this.formularioReserva.reset()
         this.devolverReservaBoolean=false
         this.cargarSolicitudes()
@@ -107,23 +112,37 @@ export class GestionarReservasComponent implements OnInit {
       if(fechaIngresada.getTime()>new Date().getTime()){
         this.solicitudService.aceptarSolicitud(this.solicitud.idSolicitud, aceptarSolicitudDto).subscribe(response=>{
           if(response){
-            alert('¡Se ha aceptado la reserva!')
+            Swal.fire({
+              title: '¡Se ha aceptado la reserva!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
             this.formularioReserva.reset()
             this.aceptarReservaBoolean=false
             this.cargarSolicitudes()
           }
         })
       }else{
-        alert('¡La fecha tiene que ser mayor a la actual!')
+        Swal.fire({
+          title: '¡La fecha tiene que ser mayor a la actual!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
         this.formularioReserva.reset()
       }
     }else{
-      alert('¡Rellene los datos!')
+      Swal.fire({
+        title: '¡Rellene los datos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
   }
   
   public logOut(): void{
     this.loginService.logOut()
-    alert('¡Se ha cerrado la sesión!')
   }
 }

@@ -30,7 +30,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       anio: ['', Validators.required],
       editorial: ['', Validators.required],
       ubicacion: ['', Validators.required],
-      generos: [[]]  // Inicializado como un array vacío
+      generos: [[]]
     })
   }
 
@@ -100,15 +100,30 @@ export class GestionarListaDeLibrosComponent implements OnInit {
         response => {
           this.restablecerValores()
           this.buscarLibros()
-          alert('¡Libro agregado exitosamente!')
+          Swal.fire({
+            title: '¡Libro agregado exitosamente!',
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
         },
         error => {
           console.error(error)
-          alert('Hubo un error al agregar el libro.')
+          Swal.fire({
+            title: '¡Hubo un error al agregar el libro!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
         }
       )
     } else {
-      alert('¡Rellene todos los campos!')
+      Swal.fire({
+        title: '¡Rellene todos los campos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
   }
 
@@ -137,7 +152,12 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     } else if(tipoEditar=='pdf'){
       this.pdfService.buscarPdf(libro.idLibro).subscribe(response=>{
         if(response){
-          alert('tiene pdf')
+          Swal.fire({
+            title: '¡El libro ya tiene PDF!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
           this.pdfBoolean=true
           this.restablecerValores()
         }
@@ -177,18 +197,38 @@ export class GestionarListaDeLibrosComponent implements OnInit {
           this.restablecerValores()
           this.buscarLibros()
           if(this.selectedFile){
-            alert('¡Se agrego el PDF al libro!')
+            Swal.fire({
+              title: '¡Se agrego el PDF al libro!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
           }else{
-            alert('¡Libro editado exitosamente!')
+            Swal.fire({
+              title: '¡Libro edito exitosamente!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
           }
         },
         error => {
           console.error(error)
-          alert('Hubo un error al editar el libro.')
+          Swal.fire({
+            title: '¡Hubo un error al editar el libro!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
         }
       )
     } else {
-      alert('¡Rellene todos los campos!')
+      Swal.fire({
+        title: '¡Rellene todos los campos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
   }
 
@@ -219,6 +259,5 @@ export class GestionarListaDeLibrosComponent implements OnInit {
 
   public logOut(): void{
     this.loginService.logOut()
-    alert('¡Se ha cerrado la sesión!')
   }
 }

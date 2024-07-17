@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PdfService } from '../services/pdf.service';
 import { SafeResourceUrl } from '@angular/platform-browser';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-verLibroDigital',
@@ -32,7 +33,12 @@ export class VerLibroDigitalComponent implements OnInit {
       },
       (error) => {
         if(error.status==404){
-          alert('¡El libro no existe!')
+          Swal.fire({
+            title: '¡El libro no existe!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
           this.router.navigateByUrl('listaDeLibrosDigitales')
         }
       }

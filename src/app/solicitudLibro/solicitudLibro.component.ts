@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LibrosService } from '../services/libros.service';
 import { SolicitudLibroDto } from '../DTO/solicitudLibro.dto';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-solicitudLibro',
@@ -35,12 +36,22 @@ export class SolicitudLibroComponent implements OnInit {
   public comprobarReserva(): void{
     this.librosService.buscarLibroReservado(this.idLibro).subscribe(response=>{
       if(response){
-        alert('¡El libro ya esta reservado!')
+        Swal.fire({
+          title: '¡El libro ya esta reservado!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
         this.router.navigateByUrl('listaDeLibros')
       }else{  
         this.librosService.buscarLibro(this.idLibro).subscribe(response=>{
           if(!response){
-            alert('¡El libro no existe!')
+            Swal.fire({
+              title: '¡El libro no existe!',
+              icon: 'error',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
             this.router.navigateByUrl('listaDeLibros')
           }
         })
@@ -55,14 +66,30 @@ export class SolicitudLibroComponent implements OnInit {
       solicitudLibroDto.idLibro=this.idLibro
       this.librosService.solicitarLibro(solicitudLibroDto).subscribe(response=>{
         if(response){
-          alert('¡Reserva hecha!')
+          Swal.fire({
+            title: '¡Reserva hecha!',
+            text: "Se confirmo la reserva.",
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
           this.router.navigateByUrl('listaDeLibros')
         }else{
-          alert('¡Hubo un error en la reserva!')
+          Swal.fire({
+            title: '¡Hubo un error en la reserva!',
+            icon: 'error',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
         }
       })
     }else{
-      alert('¡Relle todos los campos!')
+      Swal.fire({
+        title: '¡Rellene todos los campos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
   }
 }

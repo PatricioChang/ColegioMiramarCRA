@@ -3,6 +3,7 @@ import { LoginService } from '../services/login.service';
 import { Router } from '@angular/router';
 import { SolicitudService } from '../services/solicitud.service';
 import { ToastrService } from 'ngx-toastr';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-inicioPersonal',
@@ -44,6 +45,5 @@ export class InicioPersonalComponent implements OnInit {
 
   public logOut(): void{
     this.loginService.logOut()
-    alert('¡Se ha cerrado la sesión!')
   }
 }

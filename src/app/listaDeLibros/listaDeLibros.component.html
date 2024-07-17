@@ -40,7 +40,6 @@
             <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro_Generos.indexOf(libroGenero) < libro.libro_Generos.length - 1">, </span>
           </ng-container>
         </p>
-        <p class="text-gray-700">Cantidad disponible: 1</p>
         <button (click)="reservarLibro(libro.idLibro)" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Reservar libro</button> 
       </div>
     </div>
@@ -71,7 +70,6 @@
             <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro_Generos.indexOf(libroGenero) < libro.libro_Generos.length - 1">, </span>
           </ng-container>
         </p>
-        <p class="text-gray-700">Cantidad disponible: 0</p>
       </div>
     </div>
   </div>

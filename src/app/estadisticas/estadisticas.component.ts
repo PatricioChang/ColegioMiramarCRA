@@ -118,6 +118,5 @@ export class EstadisticasComponent implements OnInit {
 
   public logOut(): void{
     this.loginService.logOut()
-    alert('¡Se ha cerrado la sesión!')
   }
 }

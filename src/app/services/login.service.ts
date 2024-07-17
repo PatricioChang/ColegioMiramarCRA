@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { Observable, catchError, map, of } from 'rxjs';
 import { LoginDto } from '../DTO/login.dto';
 import { jwtDecode } from 'jwt-decode';
+import Swal from 'sweetalert2';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -42,6 +44,12 @@ constructor(
     if(sessionStorage.getItem('token')){
       sessionStorage.removeItem('token')
       sessionStorage.removeItem('notificacionSolicitud')
+      Swal.fire({
+        title: '¡Se ha cerrado la sesión!',
+        icon: 'success',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
       return true
     }
     return false
@@ -54,7 +62,12 @@ constructor(
       try {
         decodedToken = jwtDecode(token);
       } catch (error) {
-        alert('¡Token invalido!');
+        Swal.fire({
+          title: '¡Token invalido!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
         sessionStorage.removeItem('token');
         this.router.navigateByUrl('inicio');
         return; 
@@ -64,7 +77,12 @@ constructor(
       const currentTimeInSeconds: number = Math.floor(Date.now() / 1000);
 
       if (currentTimeInSeconds > expirationTimeInSeconds) {
-        alert('¡Se expiro el token vuelva a iniciar sesión!')
+        Swal.fire({
+          title: '¡Se expiro el token vuelva a iniciar sesión!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
         this.logOut();
         this.router.navigateByUrl('inicio');
       }

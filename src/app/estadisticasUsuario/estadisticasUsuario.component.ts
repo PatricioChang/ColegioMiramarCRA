@@ -27,14 +27,11 @@ export class EstadisticasUsuarioComponent implements OnInit {
 
   public cargarDatos(){
     const mesActual= new Date().getMonth()+1
-    console.log(mesActual)
     this.solicitudService.buscarSolicitudes().subscribe(response=>{
       const librosConteo: { [key: string]: number } = {}
       for(let solicitud of response){
-        console.log(solicitud)
         const fechaSolicitud= new Date(solicitud.fechaDeSolicitud)
         const solicitudMes= fechaSolicitud.getMonth()+1
-        console.log(solicitudMes)
 
         if(solicitudMes===mesActual){
           const libroTitulo = solicitud.libro.titulo
@@ -44,8 +41,6 @@ export class EstadisticasUsuarioComponent implements OnInit {
           librosConteo[libroTitulo]++
         }
       }
-
-      console.log(librosConteo)
 
       const ordenLibros = Object.entries(librosConteo)
         .sort((a, b) => b[1] - a[1])
