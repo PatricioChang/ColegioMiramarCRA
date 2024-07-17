@@ -20,7 +20,7 @@ export class SolicitudLibroComponent implements OnInit {
   ) { 
     this.formularioSolicitudLibro= formBuilder.group({
       name: ['',Validators.required],
-      grade: [],
+      grade: ['', Validators.required],
       rut: [],
     })
   }
