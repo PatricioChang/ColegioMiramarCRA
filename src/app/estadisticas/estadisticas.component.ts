@@ -47,8 +47,8 @@ export class EstadisticasComponent implements OnInit {
     this.librosService.buscarLibros().subscribe(response => {
       this.totalLibros = response.length
     })
-    this.librosService.buscarLibrosReservados().subscribe(response => {
-      this.librosPrestados = response.length
+    this.solicitudService.buscarSolicitudesPorDevolver().subscribe(response => {
+      this.librosPrestados = response.filter(solicitud => solicitud.fechaDeDevolucion).length
     })
 
     this.solicitudService.buscarSolicitudes().subscribe(response => {
