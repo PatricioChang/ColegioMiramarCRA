@@ -24,45 +24,46 @@
       </div>
       <div class="mb-4">
         <label class="block text-gray-700">Curso</label>
-        <input formControlName="grade" list="cursos" class="w-full px-3 py-2 border rounded" placeholder="Curso" />
-        <datalist id="cursos">
-          <option value="1°A"></option>
-          <option value="1°B"></option>
-          <option value="2°A"></option>
-          <option value="2°B"></option>
-          <option value="2°C"></option>
-          <option value="3°A"></option>
-          <option value="3°B"></option>
-          <option value="3°C"></option>
-          <option value="4°A"></option>
-          <option value="4°B"></option>
-          <option value="4°C"></option>
-          <option value="5°A"></option>
-          <option value="5°B"></option>
-          <option value="5°C"></option>
-          <option value="6°A"></option>
-          <option value="6°B"></option>
-          <option value="6°C"></option>
-          <option value="7°A"></option>
-          <option value="7°B"></option>
-          <option value="7°C"></option>
-          <option value="8°A"></option>
-          <option value="8°B"></option>
-          <option value="8°C"></option>
-          <option value="1°Medio A"></option>
-          <option value="1°Medio B"></option>
-          <option value="1°Medio C"></option>
-          <option value="2°Medio A"></option>
-          <option value="2°Medio B"></option>
-          <option value="2°Medio C"></option>
-          <option value="3°Medio A"></option>
-          <option value="3°Medio B"></option>
-          <option value="3°Medio C"></option>
-          <option value="4°Medio A"></option>
-          <option value="4°Medio B"></option>
-          <option value="4°Medio C"></option>
-          <option value="Funcionario"></option>
-        </datalist>
+        <select formControlName="grade" class="w-full px-3 py-2 border rounded">
+          <option value="" disabled>Curso</option>
+          <option value="1°A">1°A</option>
+          <option value="1°B">1°B</option>
+          <option value="1°C">1°C</option>
+          <option value="2°A">2°A</option>
+          <option value="2°B">2°B</option>
+          <option value="2°C">2°C</option>
+          <option value="3°A">3°A</option>
+          <option value="3°B">3°B</option>
+          <option value="3°C">3°C</option>
+          <option value="4°A">4°A</option>
+          <option value="4°B">4°B</option>
+          <option value="4°C">4°C</option>
+          <option value="5°A">5°A</option>
+          <option value="5°B">5°B</option>
+          <option value="5°C">5°C</option>
+          <option value="6°A">6°A</option>
+          <option value="6°B">6°B</option>
+          <option value="6°C">6°C</option>
+          <option value="7°A">7°A</option>
+          <option value="7°B">7°B</option>
+          <option value="7°C">7°C</option>
+          <option value="8°A">8°A</option>
+          <option value="8°B">8°B</option>
+          <option value="8°C">8°C</option>
+          <option value="1°Medio A">1°Medio A</option>
+          <option value="1°Medio B">1°Medio B</option>
+          <option value="1°Medio C">1°Medio C</option>
+          <option value="2°Medio A">2°Medio A</option>
+          <option value="2°Medio B">2°Medio B</option>
+          <option value="2°Medio C">2°Medio C</option>
+          <option value="3°Medio A">3°Medio A</option>
+          <option value="3°Medio B">3°Medio B</option>
+          <option value="3°Medio C">3°Medio C</option>
+          <option value="4°Medio A">4°Medio A</option>
+          <option value="4°Medio B">4°Medio B</option>
+          <option value="4°Medio C">4°Medio C</option>
+          <option value="Funcionario">Funcionario</option>
+        </select>
         <div *ngIf="formularioSolicitudLibro.controls['grade'].invalid && (formularioSolicitudLibro.controls['grade'].dirty || formularioSolicitudLibro.controls['grade'].touched)" class="text-red-600">
           Curso es obligatorio.
         </div>
