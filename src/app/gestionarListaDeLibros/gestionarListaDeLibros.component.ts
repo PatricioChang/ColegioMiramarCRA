@@ -104,40 +104,48 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public agregarLibro() {
     if (this.formularioAgregarEditar.valid) {
       const valoresFormulario = this.formularioAgregarEditar.value
-      
-      const nuevoLibro: CrearEditarLibroDto = {
-        titulo: valoresFormulario.titulo,
-        autor: valoresFormulario.autor,
-        anio: valoresFormulario.anio,
-        editorial: valoresFormulario.editorial,
-        ubicacion: valoresFormulario.ubicacion,
-        libro_Generos: valoresFormulario.generos.map((genero: any) => ({
-          idGenero: genero.idGenero,
-          nombre: genero.nombre
-        }))
-      }
-  
-      this.librosService.agregarLibro(nuevoLibro).subscribe(
-        response => {
-          this.restablecerValores()
-          this.buscarLibros()
-          Swal.fire({
-            title: '¡Libro agregado exitosamente!',
-            icon: 'success',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Ok'
-          })
-        },
-        error => {
-          console.error(error)
-          Swal.fire({
-            title: '¡Hubo un error al agregar el libro!',
-            icon: 'error',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Ok'
-          })
+      if(valoresFormulario.generos.length>0){
+        const nuevoLibro: CrearEditarLibroDto = {
+          titulo: valoresFormulario.titulo,
+          autor: valoresFormulario.autor,
+          anio: valoresFormulario.anio,
+          editorial: valoresFormulario.editorial,
+          ubicacion: valoresFormulario.ubicacion,
+          libro_Generos: valoresFormulario.generos.map((genero: any) => ({
+            idGenero: genero.idGenero,
+            nombre: genero.nombre
+          }))
         }
-      )
+    
+        this.librosService.agregarLibro(nuevoLibro).subscribe(
+          response => {
+            this.restablecerValores()
+            this.buscarLibros()
+            Swal.fire({
+              title: '¡Libro agregado exitosamente!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
+          },
+          error => {
+            console.error(error)
+            Swal.fire({
+              title: '¡Hubo un error al agregar el libro!',
+              icon: 'error',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
+          }
+        )
+      }else{
+        Swal.fire({
+          title: '¡Rellene todos los campos!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
+      }
     } else {
       Swal.fire({
         title: '¡Rellene todos los campos!',
