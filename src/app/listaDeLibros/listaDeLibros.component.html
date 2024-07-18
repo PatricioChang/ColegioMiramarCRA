@@ -1,4 +1,4 @@
-<body class="bg-gray-100">
+<body class="bg-white min-h-screen">
 
   <!-- Barra de navegación -->
   <nav class="bg-blue-900 text-white p-4">
@@ -11,9 +11,14 @@
   </nav>
 
   <!-- Contenido principal -->
-  <div class="bg-white shadow rounded-lg p-6">
+  <div class="shadow p-6 min-h-screen">
     <h2 class="text-3xl font-semibold mb-4 text-center">Lista de Libros</h2>
     <p class="text-sm text-gray-600 text-center mb-6">Explora nuestra colección de libros físicos disponibles para reserva.</p>
+
+    <!-- Barra de búsqueda -->
+    <div class="mb-6 flex justify-center">
+      <input type="text" [formControl]="buscarFormulario" placeholder="Buscar libro por título" class="px-4 py-2 border rounded w-full max-w-md">
+    </div>
     
     <!-- No hay libros disponibles -->
     <div *ngIf="libros.length == 0" class="text-center text-gray-500">No hay libros disponibles.</div>

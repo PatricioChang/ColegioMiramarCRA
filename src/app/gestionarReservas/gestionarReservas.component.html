@@ -13,7 +13,7 @@
   </nav>
 
   <!-- Contenido principal -->
-  <div class="bg-white shadow rounded-lg p-6">
+  <div class="bg-white shadow rounded-lg p-6 min-h-screen">
     <div class="flex items-center justify-center p-10" *ngIf="aceptarReservaBoolean">
       <form [formGroup]="formularioReserva" (ngSubmit)="aceptarReserva()" class="bg-white p-6 rounded shadow-md w-full max-w-sm">
         <h2 class="text-2xl font-bold mb-4">Reserva</h2>
@@ -39,6 +39,11 @@
     <ng-container *ngIf="!aceptarReservaBoolean&&!devolverReservaBoolean">
       <h2 class="text-3xl font-semibold mb-4 text-center">Gestión de reservas</h2>
       <p class="text-sm text-gray-600 text-center mb-6">Aqui puedes gestionar las reservas de la biblioteca.</p>
+
+      <!-- Barra de búsqueda -->
+      <div class="mb-6 flex justify-center">
+        <input type="text" [formControl]="buscarFormulario" placeholder="Buscar reserva por nombre" class="px-4 py-2 border rounded w-full max-w-md">
+      </div>
 
       <!-- Hay reservas disponibles -->
       <h2 class="text-3xl font-semibold mb-4">Reservas por aceptar</h2>

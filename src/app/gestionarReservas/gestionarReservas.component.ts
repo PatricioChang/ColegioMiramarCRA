@@ -3,10 +3,11 @@ import { LoginService } from '../services/login.service';
 import { Libro } from '../models/Libro';
 import { Solicitud } from '../models/Solicitud';
 import { SolicitudService } from '../services/solicitud.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { AceptarSolicitudDto } from '../DTO/aceptarSolicitud.dto';
 import { DevolverLibroDto } from '../DTO/devolverLibro.dto';
 import Swal from 'sweetalert2';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 
 @Component({
@@ -31,12 +32,21 @@ export class GestionarReservasComponent implements OnInit {
 
   ngOnInit() {
     this.cargarSolicitudes()
+    this.buscarFormulario.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(nombre => {
+        this.filtrarSolicitudes(nombre)
+      })
   }
 
   public aceptarReservaBoolean: boolean=false
   public devolverReservaBoolean: boolean=false
   public formularioReserva: FormGroup
   public formularioDevolverReserva: FormGroup
+  public buscarFormulario: FormControl = new FormControl()
   public solicitud: Solicitud= new Solicitud(0,'','','',false,new Libro(0,'','',0,'',[],''))
   public libros: Libro[]=[]
   public solicitudesPorAceptar: Solicitud[]=[]
@@ -139,6 +149,17 @@ export class GestionarReservasComponent implements OnInit {
         confirmButtonColor: '#3085d6',
         confirmButtonText: 'Ok'
       })
+    }
+  }
+
+  public filtrarSolicitudes(nombre: string): void {
+    if (nombre) {
+      this.solicitudService.buscarSolicitudesPorDevolver().subscribe(response=>{
+        this.solicitudesPorAceptar= response.filter(solicitud => !solicitud.fechaDeDevolucion && solicitud.nombreSolicitante.toLowerCase().includes(nombre.toLowerCase()))
+        this.solicitudesPorDevolver= response.filter(solicitud => solicitud.fechaDeDevolucion && solicitud.nombreSolicitante.toLowerCase().includes(nombre.toLowerCase()))
+      })
+    } else {
+      this.cargarSolicitudes()
     }
   }
   

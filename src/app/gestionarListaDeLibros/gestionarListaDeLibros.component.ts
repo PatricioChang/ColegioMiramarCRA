@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { LibrosService } from '../services/libros.service';
 import { Libro } from '../models/Libro';
 import { LoginService } from '../services/login.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { GeneroService } from '../services/genero.service';
 import { Genero } from '../models/Genero';
 import { CrearEditarLibroDto } from '../DTO/crearEditarLibro.dto';
 import Swal from 'sweetalert2';
 import { PdfService } from '../services/pdf.service';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-gestionarListaDeLibros',
@@ -48,6 +49,14 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       searchPlaceholderText: 'Buscar género',
       noDataAvailablePlaceholderText: 'No hay géneros disponibles'
     }
+    this.buscarFormulario.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged()
+      )
+      .subscribe(titulo => {
+        this.filtrarLibros(titulo)
+      })
   }
 
   public libros: Libro[] = []
@@ -58,6 +67,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public editarLibroBoolean: boolean = false
   public pdfBoolean: boolean = false
   public formularioAgregarEditar: FormGroup
+  public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
   selectedFile: File | null = null
 
@@ -255,6 +265,18 @@ export class GestionarListaDeLibrosComponent implements OnInit {
         })
       }
     })
+  }
+
+  public filtrarLibros(titulo: string): void {
+    if (titulo) {
+      this.librosService.buscarLibrosDisponibles().subscribe(response => {
+        this.libros = response.filter(libro =>
+          libro.titulo.toLowerCase().includes(titulo.toLowerCase())
+        )
+      })
+    } else {
+      this.buscarLibros()
+    }
   }
 
   public logOut(): void{
