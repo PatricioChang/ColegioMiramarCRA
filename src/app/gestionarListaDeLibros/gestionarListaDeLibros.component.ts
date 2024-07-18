@@ -349,6 +349,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
               confirmButtonColor: '#3085d6',
               confirmButtonText: 'Ok'
             })
+            this.restablecerValores()
             this.buscarLibros()
             this.buscarGeneros()
           })
