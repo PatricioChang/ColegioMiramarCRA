@@ -104,7 +104,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public agregarLibro() {
     if (this.formularioAgregarEditar.valid) {
       const valoresFormulario = this.formularioAgregarEditar.value
-      if(valoresFormulario.generos.length>0){
+      if(!(valoresFormulario.generos==null)){
         const nuevoLibro: CrearEditarLibroDto = {
           titulo: valoresFormulario.titulo,
           autor: valoresFormulario.autor,
