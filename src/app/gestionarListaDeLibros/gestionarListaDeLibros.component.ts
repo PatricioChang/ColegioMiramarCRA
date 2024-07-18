@@ -37,6 +37,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     this.formularioAgregarGenero= formBuilder.group({
       nombre: ['', Validators.required]
     })
+    this.formularioEliminarGenero= formBuilder.group({
+      nombre: ['', Validators.required]
+    })
   }
 
   ngOnInit() {
@@ -70,9 +73,11 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public agregarLibroBoolean: boolean = false
   public editarLibroBoolean: boolean = false
   public agregarGeneroBoolean: boolean = false
+  public eliminarGeneroBoolean: boolean = false
   public pdfBoolean: boolean = false
   public formularioAgregarEditar: FormGroup
   public formularioAgregarGenero: FormGroup
+  public formularioEliminarGenero: FormGroup
   public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
   selectedFile: File | null = null
@@ -294,6 +299,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       this.generoService.agregarGenero(nuevoGenero).subscribe(response => {
         this.restablecerValores()
         this.buscarLibros()
+        this.buscarGeneros()
         Swal.fire({
           title: '¡Género agregado exitosamente!',
           icon: 'success',
@@ -309,6 +315,44 @@ export class GestionarListaDeLibrosComponent implements OnInit {
           confirmButtonColor: '#3085d6',
           confirmButtonText: 'Ok'
         })
+      })
+    }else{
+      Swal.fire({
+        title: '¡Rellene todos los campos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
+    }
+  }
+
+  public eliminarGenero(): void{
+    if(this.formularioEliminarGenero.valid){
+      Swal.fire({
+        title: '¿Estás seguro?',
+        text: "¡No podrás revertir esto!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, eliminarlo'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          const idGenero= this.generos.find(genero=>
+            genero.nombre== this.formularioEliminarGenero.get('nombre')!.value
+          )!.idGenero
+          this.generoService.borrarGenero(idGenero).subscribe(() => {
+            Swal.fire({
+              title: 'Eliminado!',
+              text: "El género ha sido eliminado.",
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
+            this.buscarLibros()
+            this.buscarGeneros()
+          })
+        }
       })
     }else{
       Swal.fire({

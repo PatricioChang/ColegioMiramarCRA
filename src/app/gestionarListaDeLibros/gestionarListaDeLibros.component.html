@@ -5,8 +5,8 @@
     <div class="container mx-auto flex justify-between items-center">
       <h1 class="text-xl font-bold">Colegio Miramar</h1>
       <ul class="flex space-x-4">
-        <li *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean"><a href="inicioPersonal" class="hover:underline">Inicio</a></li>
-        <li *ngIf="agregarLibroBoolean||editarLibroBoolean||agregarGeneroBoolean"><a href="gestionarListaDeLibros" (click)="restablecerValores()" class="hover:underline">Inicio</a></li>
+        <li *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean"><a href="inicioPersonal" class="hover:underline">Inicio</a></li>
+        <li *ngIf="agregarLibroBoolean||editarLibroBoolean||agregarGeneroBoolean||eliminarGeneroBoolean"><a href="gestionarListaDeLibros" (click)="restablecerValores()" class="hover:underline">Inicio</a></li>
         <li><a href="" class="hover:underline" (click)="logOut()">LogOut</a></li>
       </ul>
     </div>
@@ -14,8 +14,9 @@
 
   <!-- Contenido principal -->
   <div class="bg-white shadow rounded-lg p-6 min-h-screen">
-    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean" (click)="agregarLibroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar libro</button>
-    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean" (click)="agregarGeneroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar Género</button>
+    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean" (click)="agregarLibroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar libro</button>
+    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean" (click)="agregarGeneroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar Género</button>
+    <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean" (click)="eliminarGeneroBoolean=true" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar Género</button>
 
     <!-- Formulario para agregar libro -->
     <div class="flex items-center justify-center p-10" *ngIf="agregarLibroBoolean">
@@ -115,8 +116,28 @@
         <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Agregar género</button>
       </form>
     </div>
+
+    <!-- Formulario para eliminar genero -->
+    <div class="flex items-center justify-center p-10" *ngIf="eliminarGeneroBoolean">
+      <form [formGroup]="formularioEliminarGenero" (ngSubmit)="eliminarGenero()" class="bg-white p-6 rounded shadow-md w-full max-w-sm">
+        <h2 class="text-2xl font-bold mb-4">Eliminar Género</h2>
+        <div class="mb-4">
+          <label class="block text-gray-700">Nombre</label>
+          <select formControlName="nombre" class="w-full px-3 py-2 border rounded">
+            <option value="" disabled>Nombre</option>
+            <ng-container *ngFor="let genero of generos">
+              <option value="{{genero.nombre}}">{{genero.nombre}}</option>
+            </ng-container>
+          </select>
+          <div *ngIf="formularioEliminarGenero.controls['nombre'].invalid && (formularioEliminarGenero.controls['nombre'].dirty || formularioEliminarGenero.controls['nombre'].touched)" class="text-red-600">
+            Nombre es obligatorio.
+          </div>
+        </div>
+        <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Agregar género</button>
+      </form>
+    </div>
     
-    <ng-container *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean">
+    <ng-container *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean">
       <h2 class="text-3xl font-semibold mb-4 text-center">Gestión de Libros</h2>
       <p class="text-sm text-gray-600 text-center mb-6">Aqui puedes gestionar los libros de la biblioteca, puedes crear, editar y eliminar libros.</p>
 

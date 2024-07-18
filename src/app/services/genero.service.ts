@@ -19,4 +19,8 @@ export class GeneroService {
   public agregarGenero(crearGeneroDto: CrearGeneroDto): Observable<Genero>{
     return this.http.post<Genero>(this.apiUrl + '/crearGenero', crearGeneroDto)
   }
+
+  public borrarGenero(idGenero: number): Observable<void> {
+    return this.http.delete<void>(this.apiUrl + "/" + idGenero)
+  }
 }
