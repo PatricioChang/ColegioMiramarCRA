@@ -155,6 +155,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     this.eliminarGeneroBoolean=false
     this.pdfBoolean=false
     this.formularioAgregarEditar.reset()
+    this.formularioAgregarGenero.reset()
+    this.formularioEliminarGenero.reset()
     this.generosLibro=[]
   }
 
