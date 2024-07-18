@@ -293,7 +293,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
 
   public filtrarLibros(titulo: string): void {
     if (titulo) {
-      this.librosService.buscarLibrosDisponibles().subscribe(response => {
+      this.librosService.buscarLibros().subscribe(response => {
         this.libros = response.filter(libro =>
           libro.titulo.toLowerCase().includes(titulo.toLowerCase())
         )
