@@ -10,6 +10,7 @@ import { CrearEditarLibroDto } from '../DTO/crearEditarLibro.dto';
 import Swal from 'sweetalert2';
 import { PdfService } from '../services/pdf.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { CrearGeneroDto } from '../DTO/crearGenero.dto';
 
 @Component({
   selector: 'app-gestionarListaDeLibros',
@@ -32,6 +33,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       editorial: ['', Validators.required],
       ubicacion: ['', Validators.required],
       generos: [[]]
+    })
+    this.formularioAgregarGenero= formBuilder.group({
+      nombre: ['', Validators.required]
     })
   }
 
@@ -65,8 +69,10 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public libro: Libro = new Libro(0, '', '', 0, '', [], '')
   public agregarLibroBoolean: boolean = false
   public editarLibroBoolean: boolean = false
+  public agregarGeneroBoolean: boolean = false
   public pdfBoolean: boolean = false
   public formularioAgregarEditar: FormGroup
+  public formularioAgregarGenero: FormGroup
   public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
   selectedFile: File | null = null
@@ -140,6 +146,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public restablecerValores(){
     this.agregarLibroBoolean=false
     this.editarLibroBoolean=false
+    this.agregarGeneroBoolean=false
     this.pdfBoolean=false
     this.formularioAgregarEditar.reset()
     this.generosLibro=[]
@@ -276,6 +283,40 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       })
     } else {
       this.buscarLibros()
+    }
+  }
+
+  public agregarGenero(): void{
+    if(this.formularioAgregarGenero.valid){
+       const nuevoGenero: CrearGeneroDto = {
+        nombre: this.formularioAgregarGenero.get('nombre')?.value
+      }
+      this.generoService.agregarGenero(nuevoGenero).subscribe(response => {
+        this.restablecerValores()
+        this.buscarLibros()
+        Swal.fire({
+          title: '¡Género agregado exitosamente!',
+          icon: 'success',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
+      },
+      error => {
+        console.error(error)
+        Swal.fire({
+          title: '¡Hubo un error al agregar el género!',
+          icon: 'error',
+          confirmButtonColor: '#3085d6',
+          confirmButtonText: 'Ok'
+        })
+      })
+    }else{
+      Swal.fire({
+        title: '¡Rellene todos los campos!',
+        icon: 'error',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: 'Ok'
+      })
     }
   }
 
