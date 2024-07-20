@@ -18,7 +18,7 @@ constructor(
   this.checkTokenExpiration()
 }
 
-  private apiUrl = 'http://colegiomiramarcra-production.up.railway.app/auth/login'
+  private apiUrl = 'https://colegiomiramarcra-production.up.railway.app/auth/login'
 
   public login(loginDto: LoginDto): Observable<{ success: boolean; message?: string }> {
     return this.httpClient.post<any>(this.apiUrl, loginDto).pipe(

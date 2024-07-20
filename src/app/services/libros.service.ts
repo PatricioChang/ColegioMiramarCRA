@@ -12,7 +12,7 @@ export class LibrosService {
 
 constructor(private http: HttpClient) { }
 
-  private apiUrl= 'http://colegiomiramarcra-production.up.railway.app/libro'
+  private apiUrl= 'https://colegiomiramarcra-production.up.railway.app/libro'
 
   public buscarLibros(): Observable<Libro[]>{
     return this.http.get<Libro[]>(this.apiUrl + '/libros')

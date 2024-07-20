@@ -10,7 +10,7 @@ import { CrearGeneroDto } from '../DTO/crearGenero.dto';
 export class GeneroService {
   constructor(private http: HttpClient) { }
 
-  private apiUrl= 'http://colegiomiramarcra-production.up.railway.app/genero'
+  private apiUrl= 'https://colegiomiramarcra-production.up.railway.app/genero'
 
   public buscarGeneros(): Observable<Genero[]>{
     return this.http.get<Genero[]>(this.apiUrl + '/generos')

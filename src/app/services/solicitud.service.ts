@@ -12,7 +12,7 @@ export class SolicitudService {
 
   constructor(private http: HttpClient) { }
 
-  private apiUrl= 'http://colegiomiramarcra-production.up.railway.app/solicitud'
+  private apiUrl= 'https://colegiomiramarcra-production.up.railway.app/solicitud'
 
   public buscarSolicitudes(): Observable<Solicitud[]>{
     return this.http.get<Solicitud[]>(this.apiUrl)
