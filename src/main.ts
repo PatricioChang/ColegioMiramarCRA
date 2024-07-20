@@ -7,7 +7,7 @@ async function bootstrap() {
   const corsOptions: CorsOptions = {
     origin: [
       'http://localhost:8080',
-      'https://colegiomiramarcrafrontend-addff9d1df11.herokuapp.com/'
+      'https://colegiomiramarcrafrontend-addff9d1df11.herokuapp.com'
     ], 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
     preflightContinue: false, 
