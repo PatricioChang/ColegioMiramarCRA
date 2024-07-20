@@ -4,7 +4,18 @@ import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.int
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors()
+  const corsOptions: CorsOptions = {
+    origin: [
+      'http://localhost:8080',
+      'https://colegiomiramarcrafrontend-addff9d1df11.herokuapp.com/'
+    ], 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    preflightContinue: false, 
+    optionsSuccessStatus: 204,
+    credentials: true,
+  }
+
+  app.enableCors(corsOptions);
   await app.listen(process.env.PORT || 3000);
 }
 bootstrap();
