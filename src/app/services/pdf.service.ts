@@ -10,7 +10,7 @@ export class PdfService {
 
 constructor(private http: HttpClient) { }
 
-private apiUrl= 'https://colegiomiramarcrabackend-966dcdc0a6ed.herokuapp.com/pdf'
+private apiUrl= 'http://colegiomiramarcra-production.up.railway.app/pdf'
 
 public buscarPdfs(): Observable<Libro[]>{
   return this.http.get<Libro[]>(this.apiUrl)
