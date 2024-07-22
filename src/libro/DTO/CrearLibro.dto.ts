@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsArray, ArrayNotEmpty, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsArray, ArrayNotEmpty, IsNotEmpty, IsOptional } from 'class-validator';
 
 export class CrearEditarLibroDto {
   @IsString()
@@ -19,6 +19,10 @@ export class CrearEditarLibroDto {
   @IsString()
   @IsNotEmpty()
   ubicacion: string;
+
+  @IsString()
+  @IsOptional()
+  url: string;
 
   libro_Generos: { idGenero: number, nombre: string }[];
 }

@@ -49,7 +49,6 @@ constructor(private readonly libroService: LibroService) {}
   @Put('editarLibro/:idLibro')
   @UseInterceptors(FileInterceptor('pdf'))
   update(@Param() idLibro: number,@Body() crearEditarLibroDto: CrearEditarLibroDto, @UploadedFile() file: Express.Multer.File) {
-    console.log(crearEditarLibroDto)
     return this.libroService.editarLibro(idLibro, crearEditarLibroDto, file)
   }
 

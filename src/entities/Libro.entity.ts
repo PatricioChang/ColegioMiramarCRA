@@ -2,6 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToMany, OneToOne } from 'typ
 import { Solicitud } from './Solicitud.entity';
 import { Libro_Genero } from './Libro_Genero.entity';
 import { Pdf } from './Pdf.entity';
+import { IsOptional } from 'class-validator';
 
 @Entity('libro')
 export class Libro {
@@ -22,6 +23,10 @@ export class Libro {
 
   @Column()
   ubicacion: string
+
+  @Column({ nullable: true })
+  @IsOptional()
+  url: string
 
   @OneToMany(()=>Solicitud, (solicitud)=>solicitud.libro)
   solicitudes: Solicitud[]
