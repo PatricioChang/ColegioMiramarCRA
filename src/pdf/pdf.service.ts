@@ -11,18 +11,28 @@ export class PdfService {
     ) {}
 
     async getPdf(idLibro: number): Promise<Pdf | undefined> {
-        const queryBuilder: SelectQueryBuilder<Pdf> = this.pdfRepository.createQueryBuilder('pdf');
-        queryBuilder.innerJoin('pdf.libro', 'libro').where('libro.idLibro = :idLibro', { idLibro });
+        const queryBuilder: SelectQueryBuilder<Pdf> = this.pdfRepository.createQueryBuilder('pdf')
+        queryBuilder.innerJoin('pdf.libro', 'libro').where('libro.idLibro = :idLibro', { idLibro })
 
         try {
             const pdf = await queryBuilder.getOne();
             if (!pdf) {
-                throw new NotFoundException(`PDF not found for libroId ${idLibro}`);
+                throw new NotFoundException(`PDF not found for libroId ${idLibro}`)
             }
-            return pdf;
+            return pdf
         } catch (error) {
-            throw new NotFoundException(`PDF not found for libroId ${idLibro}`);
+            throw new NotFoundException(`PDF not found for libroId ${idLibro}`)
         }
+    }
+
+    async eliminarPdf(idLibro: number): Promise<void> {
+        const pdf = await this.getPdf(idLibro)
+
+        if (!pdf) {
+            throw new NotFoundException(`PDF not found for libroId ${idLibro}`)
+        }
+
+        await this.pdfRepository.remove(pdf)
     }
 }
 

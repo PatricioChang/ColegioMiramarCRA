@@ -1,4 +1,4 @@
-import { BadRequestException, Controller, Get, Param, Res } from '@nestjs/common';
+import { BadRequestException, Controller, Delete, Get, Param, Res } from '@nestjs/common';
 import { PdfService } from './pdf.service';
 import { Response } from 'express';
 import { LibroService } from 'src/libro/libro.service';
@@ -27,5 +27,10 @@ export class PdfController {
       'Content-Disposition': `attachment; filename="${pdf.nombreArchivo}"`,
     });
     res.send(pdf.data)
+  }
+
+  @Delete(':id')
+  async eliminarPdf(@Param('id') idLibro: number): Promise<void> {
+    await this.pdfService.eliminarPdf(idLibro)
   }
 }
