@@ -137,6 +137,10 @@ export class LibroService {
         return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()
     }
 
+    async buscarTodosMasPdf(): Promise<Libro[]>{
+        return await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').leftJoin('libro.pdf', 'pdf').getMany()
+    }
+
     async buscarTodosDisponibles(): Promise<Libro[]> {
         return await this.libroRepository.createQueryBuilder('libro')
             .leftJoinAndSelect('libro.libro_Generos', 'libro_Generos')
