@@ -15,7 +15,6 @@
     </div>
   </nav>
 
-  <!-- Contenido principal -->
   <div class="bg-white shadow rounded-lg p-6 min-h-screen">
     <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean" (click)="agregarLibroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar libro</button>
     <button *ngIf="!agregarLibroBoolean&&!editarLibroBoolean&&!agregarGeneroBoolean&&!eliminarGeneroBoolean" (click)="agregarGeneroBoolean=true" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar Género</button>
@@ -99,10 +98,31 @@
         </ng-container>
         <ng-container *ngIf="!pdfBoolean">
           <h2 class="text-2xl font-bold mb-4">Agregar PDF</h2>
-          <div class="mb-4">
-            <label class="block text-gray-700">PDF</label>
-            <input type="file" (change)="onFileSelected($event)" class="w-full px-3 py-2 border rounded" />
-          </div> 
+        
+          <form [formGroup]="formularioTipoPdf">
+            <div class="mb-4">
+              <label class="block text-gray-700">Método para Agregar PDF</label>
+              <select formControlName="pdfType" class="w-full px-3 py-2 border rounded">
+              <option value="" disabled>Tipo de Pdf</option>
+              <option value="upload">Subir archivo</option>
+              <option value="url">Ingresar enlace</option>
+              </select>
+            </div>
+          
+            <ng-container *ngIf="formularioTipoPdf.value['pdfType']=='upload'">
+              <div class="mb-4">
+                <label class="block text-gray-700">PDF</label>
+                <input type="file" (change)="onFileSelected($event)" class="w-full px-3 py-2 border rounded" />
+              </div>
+            </ng-container>
+          
+            <ng-container *ngIf="formularioTipoPdf.value['pdfType']=='url'">
+              <div class="mb-4">
+                <label class="block text-gray-700">Enlace del PDF</label>
+                <input formControlName="url" type="text" class="w-full px-3 py-2 border rounded" placeholder="Enlace del PDF" />
+              </div>
+            </ng-container>
+          </form>
           <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded mb-4">Agregar PDF</button>
         </ng-container>
       </form>

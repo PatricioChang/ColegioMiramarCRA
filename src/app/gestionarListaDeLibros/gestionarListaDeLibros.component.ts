@@ -33,13 +33,17 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       anio: ['', Validators.required],
       editorial: ['', Validators.required],
       ubicacion: ['', Validators.required],
-      generos: [[]]
+      generos: [[]],
     })
     this.formularioAgregarGenero= formBuilder.group({
       nombre: ['', Validators.required]
     })
     this.formularioEliminarGenero= formBuilder.group({
       nombre: ['', Validators.required]
+    })
+    this.formularioTipoPdf= formBuilder.group({
+      pdfType: ['', Validators.required],
+      url: ['']
     })
   }
 
@@ -79,10 +83,12 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public formularioAgregarEditar: FormGroup
   public formularioAgregarGenero: FormGroup
   public formularioEliminarGenero: FormGroup
+  public formularioTipoPdf: FormGroup
   public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
   public selectedFile: File | null = null
   public estadoPdf: { [idLibro: number]: boolean } = {} 
+  public selectedMethod: string = ''
 
   public onFileSelected(event: any): void {
     const file: File = event.target.files[0]
@@ -100,15 +106,20 @@ export class GestionarListaDeLibrosComponent implements OnInit {
 
   public verificarPdf(): void {
     this.libros.forEach(libro => {
-      this.pdfService.buscarPdf(libro.idLibro).subscribe(response => {
-        if(response){
-          this.estadoPdf[libro.idLibro] = true
-        }
-      }, error =>{
-        if(error.status === 404){
-          this.estadoPdf[libro.idLibro] = false
-        }
-      })
+      console.log(libro)
+      if(libro.url){
+        this.estadoPdf[libro.idLibro] = true
+      }else{
+        this.pdfService.buscarPdf(libro.idLibro).subscribe(response => {
+          if(response){
+            this.estadoPdf[libro.idLibro] = true
+          }
+        }, error =>{
+          if(error.status === 404){
+            this.estadoPdf[libro.idLibro] = false
+          }
+        })
+      }
     })
   }
 
@@ -208,6 +219,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     this.formularioAgregarGenero.reset()
     this.formularioEliminarGenero.reset()
     this.formularioEliminarGenero.setValue({nombre: ''})
+    this.formularioTipoPdf.reset()
     this.generosLibro=[]
   }
 
@@ -267,12 +279,12 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       formData.append('libro_Generos', generosJson)
       if (this.selectedFile) {
         formData.append('pdf', this.selectedFile)
+      }else if(this.formularioTipoPdf.get('url')?.value){
+        formData.append('url', this.formularioTipoPdf.get('url')?.value)
       }
       this.librosService.editarLibro(this.libro.idLibro, formData).subscribe(
         response => {
-          this.restablecerValores()
-          this.buscarLibros()
-          if(this.selectedFile){
+          if(this.selectedFile || this.formularioTipoPdf.get('url')?.value){
             Swal.fire({
               title: '¡Se agrego el PDF al libro!',
               icon: 'success',
@@ -287,6 +299,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
               confirmButtonText: 'Ok'
             })
           }
+          this.restablecerValores()
+          this.buscarLibros()
         },
         error => {
           console.error(error)
