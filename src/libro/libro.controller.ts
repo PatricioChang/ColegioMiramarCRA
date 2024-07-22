@@ -16,6 +16,10 @@ constructor(private readonly libroService: LibroService) {}
     return this.libroService.buscarTodos()
   }
 
+  @Get('librosMasPdf')
+  async buscarTodosMasPdf(): Promise<Libro[]>{
+    return this.libroService.buscarTodosMasPdf()
+  }
   @Get('librosDisponibles')
   async buscarTodosDisponibles(): Promise<Libro[]> {
     return this.libroService.buscarTodosDisponibles()
