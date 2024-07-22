@@ -22,7 +22,7 @@ export class CrearEditarLibroDto {
 
   @IsString()
   @IsOptional()
-  pdfUrl: string;
+  url: string;
 
   libro_Generos: { idGenero: number, nombre: string }[];
 }

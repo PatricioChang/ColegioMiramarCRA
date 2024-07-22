@@ -68,7 +68,7 @@ export class LibroService {
     }
 
     async editarLibro(idLibro: number, crearEditarLibroDto: CrearEditarLibroDto, file: Express.Multer.File): Promise<Libro> {
-        const { titulo, autor, anio, editorial, ubicacion, pdfUrl, libro_Generos } = crearEditarLibroDto
+        const { titulo, autor, anio, editorial, ubicacion, url, libro_Generos } = crearEditarLibroDto
 
         let generosIds: number[] = []
         if (typeof libro_Generos === 'string') {
@@ -96,8 +96,8 @@ export class LibroService {
         libro.editorial = editorial
         libro.ubicacion = ubicacion
 
-        if(pdfUrl){
-            libro.url= pdfUrl
+        if(url){
+            libro.url= url
         }
 
         if(file){
