@@ -13,6 +13,6 @@ export class Pdf {
   data: Buffer
 
   @OneToOne(() => Libro, (libro) => libro.pdf, { onDelete: "CASCADE", onUpdate: "CASCADE"})
-  @JoinColumn()
+  @JoinColumn({ name: 'idLibro' })
   libro: Libro;
 }
