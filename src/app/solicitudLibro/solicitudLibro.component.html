@@ -3,7 +3,10 @@
   <!-- Barra de navegación -->
   <nav class="bg-blue-900 text-white p-4">
     <div class="container mx-auto flex justify-between items-center">
-      <h1 class="text-xl font-bold">Colegio Miramar</h1>
+      <div class="flex items-center space-x-4">
+        <img src="../../assets/Logo Bicentenario 2 (3).png" class="h-12">
+        <h1 class="text-xl font-bold">Colegio Miramar</h1>
+      </div>
       <ul class="flex space-x-4">
         <li><a href="listaDeLibros" class="hover:underline">Lista de libros</a></li>
         <li><a href="inicio" class="hover:underline">Inicio</a></li>
@@ -43,25 +46,27 @@
           <option value="5°C">5°C</option>
           <option value="6°A">6°A</option>
           <option value="6°B">6°B</option>
-          <option value="6°C">6°C</option>
           <option value="7°A">7°A</option>
           <option value="7°B">7°B</option>
-          <option value="7°C">7°C</option>
           <option value="8°A">8°A</option>
           <option value="8°B">8°B</option>
           <option value="8°C">8°C</option>
-          <option value="1°Medio A">1°Medio A</option>
-          <option value="1°Medio B">1°Medio B</option>
-          <option value="1°Medio C">1°Medio C</option>
-          <option value="2°Medio A">2°Medio A</option>
-          <option value="2°Medio B">2°Medio B</option>
-          <option value="2°Medio C">2°Medio C</option>
-          <option value="3°Medio A">3°Medio A</option>
-          <option value="3°Medio B">3°Medio B</option>
-          <option value="3°Medio C">3°Medio C</option>
-          <option value="4°Medio A">4°Medio A</option>
-          <option value="4°Medio B">4°Medio B</option>
-          <option value="4°Medio C">4°Medio C</option>
+          <option value="1°AHC">1°AHC</option>
+          <option value="1°BHC">1°BHC</option>
+          <option value="1°ATP">1°ATP</option>
+          <option value="1°BTP">1°BTP</option>
+          <option value="2°AHC">2°AHC</option>
+          <option value="2°BHC">2°BHC</option>
+          <option value="2°ATP">2°ATP</option>
+          <option value="2°BTP">2°BTP</option>
+          <option value="3°A HC">3°A HC</option>
+          <option value="3°A ADMINISTRACIÓN">3°A ADMINISTRACIÓN</option>
+          <option value="3°A PARVULOS">3°A PARVULOS</option>
+          <option value="3°B ENFERMERÍA">3°B ENFERMERÍA</option>
+          <option value="4°A HC">4°A HC</option>
+          <option value="4°A ADMINISTRACIÓN">4°A ADMINISTRACIÓN</option>
+          <option value="4°A PARVULOS">4°A PARVULOS</option>
+          <option value="4°B ENFERMERÍA">4°B ENFERMERÍA</option>
           <option value="Funcionario">Funcionario</option>
         </select>
         <div *ngIf="formularioSolicitudLibro.controls['grade'].invalid && (formularioSolicitudLibro.controls['grade'].dirty || formularioSolicitudLibro.controls['grade'].touched)" class="text-red-600">
