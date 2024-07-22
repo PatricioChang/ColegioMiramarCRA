@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 import { PdfService } from '../services/pdf.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { CrearGeneroDto } from '../DTO/crearGenero.dto';
+import { response } from 'express';
 
 @Component({
   selector: 'app-gestionarListaDeLibros',
@@ -80,7 +81,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public formularioEliminarGenero: FormGroup
   public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
-  selectedFile: File | null = null
+  public selectedFile: File | null = null
+  public estadoPdf: { [idLibro: number]: boolean } = {} 
 
   public onFileSelected(event: any): void {
     const file: File = event.target.files[0]
@@ -92,6 +94,46 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public buscarLibros() {
     this.librosService.buscarLibros().subscribe(response => {
       this.libros = response
+      this.verificarPdf()
+    })
+  }
+
+  public verificarPdf(): void {
+    this.libros.forEach(libro => {
+      this.pdfService.buscarPdf(libro.idLibro).subscribe(response => {
+        if(response){
+          this.estadoPdf[libro.idLibro] = true
+        }
+      }, error =>{
+        if(error.status === 404){
+          this.estadoPdf[libro.idLibro] = false
+        }
+      })
+    })
+  }
+
+  public eliminarPdf(idLibro: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.pdfService.eliminarPdf(idLibro).subscribe(() => {
+          Swal.fire({
+            title: 'Eliminado!',
+            text: "El PDF ha sido eliminado.",
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
+          this.buscarLibros()
+        })
+      }
     })
   }
 

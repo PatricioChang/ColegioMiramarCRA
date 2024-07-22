@@ -16,7 +16,12 @@ public buscarPdfs(): Observable<Libro[]>{
   return this.http.get<Libro[]>(this.apiUrl)
 }
 
-public buscarPdf(idPdf: number): Observable<Blob> {
-  return this.http.get(`${this.apiUrl}/${idPdf}`, { responseType: 'blob' });
+public buscarPdf(idLibro: number): Observable<Blob> {
+  return this.http.get(`${this.apiUrl}/${idLibro}`, { responseType: 'blob' });
 }
+
+public eliminarPdf(idLibro: number): Observable<void> {
+  return this.http.delete<void>(this.apiUrl + "/" + idLibro)
+}
+
 }

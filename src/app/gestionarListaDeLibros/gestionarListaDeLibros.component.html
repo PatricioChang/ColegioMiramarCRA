@@ -173,7 +173,8 @@
           </p>
           <button (click)="iniciarEditarLibro(libro, 'editar')" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
           <button (click)="eliminarLibro(libro.idLibro)" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar</button> 
-          <button (click)="iniciarEditarLibro(libro, 'pdf')" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button>  
+          <button *ngIf="!estadoPdf[libro.idLibro]" (click)="iniciarEditarLibro(libro, 'pdf')" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button>  
+          <button *ngIf="estadoPdf[libro.idLibro]" (click)="eliminarPdf(libro.idLibro)" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar PDF</button>  
         </div>
       </div>
     </ng-container>
