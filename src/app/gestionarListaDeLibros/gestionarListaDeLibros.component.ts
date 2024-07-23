@@ -11,7 +11,6 @@ import Swal from 'sweetalert2';
 import { PdfService } from '../services/pdf.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { CrearGeneroDto } from '../DTO/crearGenero.dto';
-import { response } from 'express';
 
 @Component({
   selector: 'app-gestionarListaDeLibros',
@@ -34,6 +33,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       editorial: ['', Validators.required],
       ubicacion: ['', Validators.required],
       generos: [[]],
+      img: ['']
     })
     this.formularioAgregarGenero= formBuilder.group({
       nombre: ['', Validators.required]
@@ -80,6 +80,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public agregarGeneroBoolean: boolean = false
   public eliminarGeneroBoolean: boolean = false
   public pdfBoolean: boolean = false
+  public imgBoolean: boolean = false
   public formularioAgregarEditar: FormGroup
   public formularioAgregarGenero: FormGroup
   public formularioEliminarGenero: FormGroup
@@ -94,6 +95,17 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     const file: File = event.target.files[0]
     if (file) {
       this.selectedFile = file
+    }
+  }
+
+  public onImageSelected(event: any): void {
+    const file: File = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.formularioAgregarEditar.patchValue({ img: e.target.result.split(',')[1] });
+      };
+      reader.readAsDataURL(file);
     }
   }
 
@@ -227,6 +239,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     this.agregarGeneroBoolean=false
     this.eliminarGeneroBoolean=false
     this.pdfBoolean=false
+    this.imgBoolean=false
     this.formularioAgregarEditar.reset()
     this.formularioAgregarGenero.reset()
     this.formularioEliminarGenero.reset()
@@ -275,9 +288,22 @@ export class GestionarListaDeLibrosComponent implements OnInit {
             generos: libro.libro_Generos.map(genero => genero.genero)
           })
           this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
-          
-        }
+        } 
       })
+    } else if (tipoEditar=='img'){
+      this.editarLibroBoolean=true
+      this.pdfBoolean=true
+      this.libro=libro
+      this.formularioAgregarEditar.setValue({
+        titulo: libro.titulo,
+        autor: libro.autor,
+        anio: libro.anio,
+        editorial: libro.editorial,
+        ubicacion: libro.ubicacion,
+        generos: libro.libro_Generos.map(genero => genero.genero),
+        img: ''
+      })
+      this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
     }
   }
 
@@ -292,16 +318,29 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       const generosJson = JSON.stringify(this.formularioAgregarEditar.get('generos')?.value)
       formData.append('libro_Generos', generosJson)
       if (this.selectedFile) {
-        formData.append('pdf', this.selectedFile)
+        if(!this.pdfBoolean){
+          formData.append('pdf', this.selectedFile)
+        }
+      }else if (!this.imgBoolean){
+        formData.append('img', this.formularioAgregarEditar.get('img')?.value)
       }else if(this.formularioTipoPdf.get('url')?.value){
         const url = this.convertirUrlGoogleDrive(this.formularioTipoPdf.get('url')?.value)
         formData.append('url', url)
       }
       this.librosService.editarLibro(this.libro.idLibro, formData).subscribe(
         response => {
-          if(this.selectedFile || this.formularioTipoPdf.get('url')?.value){
+          if((this.selectedFile && !this.pdfBoolean) || this.formularioTipoPdf.get('url')?.value){
             Swal.fire({
               title: '¡Se agrego el PDF al libro!',
+              icon: 'success',
+              confirmButtonColor: '#3085d6',
+              confirmButtonText: 'Ok'
+            })
+            this.restablecerValores()
+            this.buscarLibros()
+          }else if(!this.imgBoolean){
+            Swal.fire({
+              title: '¡Se agrego la imagen al libro!',
               icon: 'success',
               confirmButtonColor: '#3085d6',
               confirmButtonText: 'Ok'
@@ -317,8 +356,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
             })
             this.restablecerValores()
             this.buscarLibros()
-          }
-          
+          } 
         },
         error => {
           console.error(error)

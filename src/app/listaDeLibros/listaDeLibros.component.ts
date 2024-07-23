@@ -36,6 +36,7 @@ export class ListaDeLibrosComponent implements OnInit {
   public buscarLibros(): void{
     this.librosService.buscarLibrosDisponibles().subscribe(response=>{
       this.libros=response
+      console.log(this.libros)
     })
     this.librosService.buscarLibrosReservados().subscribe(response=>{
       this.librosReservados=response

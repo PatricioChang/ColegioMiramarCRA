@@ -52,7 +52,7 @@
           <button (click)="reservarLibro(libro.idLibro)" class="mt-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Reservar libro</button>
         </div>
         <div class="ml-4 flex-shrink-0 w-32">
-          <img src="../../assets/Quijote2.jpg" class="w-32 h-48 object-fill rounded-md">
+          <img *ngIf="libro.img" [src]="'data:image/jpeg;base64,' + libro.img" class="w-32 h-48 object-fill rounded-md">
         </div>
       </div>
     </div>

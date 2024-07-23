@@ -8,4 +8,5 @@ export interface CrearEditarLibroDto {
    libro_Generos: Libro_Genero[]
    ubicacion: string
    pdf?: string
+   img?: string
   }
