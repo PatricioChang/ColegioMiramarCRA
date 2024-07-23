@@ -144,12 +144,7 @@ export class LibroService {
     async buscarTodos(): Promise<Libro[]> {
         const libros = await this.libroRepository.createQueryBuilder('libro').leftJoinAndSelect('libro.libro_Generos', 'libro_Generos').leftJoinAndSelect('libro_Generos.genero', 'genero').getMany()
     
-        return libros.map(libro => {
-            if (libro.img) {
-            libro.img = libro.img.toString('base64')
-            }
-            return libro
-        })
+        return libros
     }
 
     async buscarTodosDisponibles(): Promise<Libro[]> {
