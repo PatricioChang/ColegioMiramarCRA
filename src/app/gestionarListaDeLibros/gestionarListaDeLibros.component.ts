@@ -105,21 +105,15 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   }
 
   public verificarPdf(): void {
-    this.libros.forEach(libro => {
-      console.log(libro)
-      if(libro.url){
-        this.estadoPdf[libro.idLibro] = true
-      }else{
-        this.pdfService.buscarPdf(libro.idLibro).subscribe(response => {
-          if(response){
-            this.estadoPdf[libro.idLibro] = true
-          }
-        }, error =>{
-          if(error.status === 404){
-            this.estadoPdf[libro.idLibro] = false
-          }
-        })
-      }
+    this.pdfService.buscarPdfs().subscribe(response => {
+      const librosConPdf = response.map(pdf => pdf.idLibro)
+        this.libros.forEach(libro => {
+        if (libro.url || librosConPdf.includes(libro.idLibro)) {
+          this.estadoPdf[libro.idLibro] = true
+        } else {
+          this.estadoPdf[libro.idLibro] = false
+        }
+      })
     })
   }
 
@@ -134,15 +128,33 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       confirmButtonText: 'Sí, eliminarlo'
     }).then((result) => {
       if (result.isConfirmed) {
-        this.pdfService.eliminarPdf(idLibro).subscribe(() => {
-          Swal.fire({
-            title: 'Eliminado!',
-            text: "El PDF ha sido eliminado.",
-            icon: 'success',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Ok'
-          })
-          this.buscarLibros()
+        this.pdfService.buscarPdfs().subscribe(response => {
+          const librosConPdf = response.map(pdf => pdf.idLibro)
+          if (librosConPdf.includes(idLibro)) {
+            this.pdfService.eliminarPdf(idLibro).subscribe(() => {
+              Swal.fire({
+                title: 'Eliminado!',
+                text: "El PDF ha sido eliminado.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+              })
+              this.restablecerValores()
+              this.buscarLibros()
+            })
+          } else {
+            this.librosService.eliminarUrlDeLibro(idLibro).subscribe(()=>{
+              Swal.fire({
+                title: 'Eliminado!',
+                text: "El PDF ha sido eliminado.",
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'Ok'
+              })
+              this.restablecerValores()
+              this.buscarLibros()
+            })
+          }
         })
       }
     })
@@ -220,7 +232,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     this.formularioEliminarGenero.reset()
     this.formularioEliminarGenero.setValue({nombre: ''})
     this.formularioTipoPdf.reset()
+    this.formularioTipoPdf.setValue({pdfType: '', url: ''})
     this.generosLibro=[]
+    this.estadoPdf={}
   }
 
   public iniciarEditarLibro(libro: Libro, tipoEditar: string){
@@ -238,8 +252,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       })
       this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
     } else if(tipoEditar=='pdf'){
-      this.pdfService.buscarPdf(libro.idLibro).subscribe(response=>{
-        if(response){
+      this.pdfService.buscarPdfs().subscribe(response => {
+        const librosConPdf = response.map(pdf => pdf.idLibro)
+        if (librosConPdf.includes(libro.idLibro)) {
           Swal.fire({
             title: '¡El libro ya tiene PDF!',
             icon: 'error',
@@ -248,9 +263,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
           })
           this.pdfBoolean=true
           this.restablecerValores()
-        }
-      }, error =>{
-        if(error.status === 404){
+        }else{
           this.editarLibroBoolean=true
           this.libro=libro
           this.formularioAgregarEditar.setValue({
@@ -262,6 +275,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
             generos: libro.libro_Generos.map(genero => genero.genero)
           })
           this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
+          
         }
       })
     }
@@ -280,7 +294,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       if (this.selectedFile) {
         formData.append('pdf', this.selectedFile)
       }else if(this.formularioTipoPdf.get('url')?.value){
-        formData.append('url', this.formularioTipoPdf.get('url')?.value)
+        const url = this.convertirUrlGoogleDrive(this.formularioTipoPdf.get('url')?.value)
+        formData.append('url', url)
       }
       this.librosService.editarLibro(this.libro.idLibro, formData).subscribe(
         response => {
@@ -291,6 +306,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
               confirmButtonColor: '#3085d6',
               confirmButtonText: 'Ok'
             })
+            this.restablecerValores()
+            this.buscarLibros()
           }else{
             Swal.fire({
               title: '¡Libro edito exitosamente!',
@@ -298,9 +315,10 @@ export class GestionarListaDeLibrosComponent implements OnInit {
               confirmButtonColor: '#3085d6',
               confirmButtonText: 'Ok'
             })
+            this.restablecerValores()
+            this.buscarLibros()
           }
-          this.restablecerValores()
-          this.buscarLibros()
+          
         },
         error => {
           console.error(error)
@@ -320,6 +338,18 @@ export class GestionarListaDeLibrosComponent implements OnInit {
         confirmButtonText: 'Ok'
       })
     }
+  }
+
+  private convertirUrlGoogleDrive(url: string): string {
+    const regex = /(?:https?:\/\/)?(?:www\.)?drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/(view|preview)/
+    const match = url.match(regex)
+  
+    if (match) {
+      const fileId = match[1]
+      return `https://drive.google.com/file/d/${fileId}/preview`
+    }
+  
+    return url
   }
 
   public eliminarLibro(idLibro: number) {

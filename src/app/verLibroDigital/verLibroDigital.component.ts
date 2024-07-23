@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PdfService } from '../services/pdf.service';
-import { SafeResourceUrl } from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import Swal from 'sweetalert2';
 import { LibrosService } from '../services/libros.service';
 
@@ -16,7 +16,8 @@ export class VerLibroDigitalComponent implements OnInit {
     private route: ActivatedRoute,
     private pdfService: PdfService,
     private libroService: LibrosService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) { }
 
   ngOnInit() {
@@ -25,20 +26,23 @@ export class VerLibroDigitalComponent implements OnInit {
   }
 
   public pdfSrc: SafeResourceUrl | undefined
-  public idLibro: number=0
+  public iframeSrc: SafeResourceUrl | undefined
+  public esBlob: boolean = false
+  public idLibro: number = 0
 
   public cargarPdf(): void {
-    this.libroService.buscarLibro(this.idLibro).subscribe(response=>{
-      if(response.url){
-        this.pdfSrc=response.url
-      }else{
+    this.libroService.buscarLibro(this.idLibro).subscribe(response => {
+      if (response.url) {
+        this.esBlob = false
+        this.iframeSrc = this.sanitizer.bypassSecurityTrustResourceUrl(response.url)
+      } else {
         this.pdfService.buscarPdf(this.idLibro).subscribe(
           (data: Blob) => {
-            const url = URL.createObjectURL(data)
-            this.pdfSrc=url
+            this.esBlob = true
+            this.pdfSrc = URL.createObjectURL(data)
           },
           (error) => {
-            if(error.status==404){
+            if (error.status == 404) {
               Swal.fire({
                 title: '¡El libro no existe!',
                 icon: 'error',

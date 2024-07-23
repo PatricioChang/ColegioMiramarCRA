@@ -15,7 +15,9 @@ export class ListaDeLibrosDigitalesComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private pdfService: PdfService) {
+    private pdfService: PdfService,
+    private libroService: LibrosService
+  ) {
 
     }
 
@@ -35,8 +37,18 @@ export class ListaDeLibrosDigitalesComponent implements OnInit {
   public buscarFormulario: FormControl = new FormControl()
 
   public cargarLibrosDigitales() {
-    this.pdfService.buscarPdfs().subscribe(response=>{
-      this.librosDigitales=response
+    this.libroService.buscarLibros().subscribe(libros=>{
+      this.pdfService.buscarPdfs().subscribe(response=>{
+        const librosConPdf = response.map(pdf => pdf.idLibro)
+        libros.forEach(libro => {
+          if (libro.url || librosConPdf.includes(libro.idLibro)) {
+            this.librosDigitales.push(libro)
+          }
+        })
+      })
+      /*this.pdfService.buscarPdfs().subscribe(response=>{
+        this.librosDigitales=response
+      })*/
     })
   }
 

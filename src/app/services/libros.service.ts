@@ -49,4 +49,8 @@ constructor(private http: HttpClient) { }
   public borrarLibro(idLibro: number): Observable<void> {
     return this.http.delete<void>(this.apiUrl + "/" + idLibro)
   }
+
+  public eliminarUrlDeLibro(idLibro: number): Observable<Libro>{
+    return this.http.put<Libro>(this.apiUrl + '/eliminarUrlDeLibro/' + idLibro,{})
+  }
 }

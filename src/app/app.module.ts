@@ -21,6 +21,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { EstadisticasComponent } from './estadisticas/estadisticas.component';
 import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { EstadisticasUsuarioComponent } from './estadisticasUsuario/estadisticasUsuario.component';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
 
 @NgModule({
   declarations: [		
@@ -49,7 +50,8 @@ import { EstadisticasUsuarioComponent } from './estadisticasUsuario/estadisticas
     ToastrModule.forRoot({
       positionClass: 'toast-top-right',
     }),
-    BaseChartDirective
+    BaseChartDirective,
+    NgxExtendedPdfViewerModule
   ],
   providers: [
     provideCharts(withDefaultRegisterables())
