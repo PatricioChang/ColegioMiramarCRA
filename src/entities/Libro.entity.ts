@@ -28,6 +28,10 @@ export class Libro {
   @IsOptional()
   url: string
 
+  @Column({ type: 'longblob', nullable: true })
+  @IsOptional()
+  imagen: Buffer;
+
   @OneToMany(()=>Solicitud, (solicitud)=>solicitud.libro)
   solicitudes: Solicitud[]
 

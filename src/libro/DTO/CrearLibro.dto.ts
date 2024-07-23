@@ -24,5 +24,9 @@ export class CrearEditarLibroDto {
   @IsOptional()
   url: string;
 
+  @IsString()
+  @IsOptional()
+  img: string;
+
   libro_Generos: { idGenero: number, nombre: string }[];
 }
