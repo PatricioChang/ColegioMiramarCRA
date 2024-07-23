@@ -28,7 +28,7 @@ export class Libro {
   @IsOptional()
   url: string
 
-  @Column({ type: 'longblob', nullable: true })
+  @Column('bytea', {nullable: true })
   @IsOptional()
   img: Buffer;
 
