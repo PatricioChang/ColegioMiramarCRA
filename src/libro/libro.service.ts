@@ -110,7 +110,7 @@ export class LibroService {
         }
 
         if (img) {
-            libro.imagen = Buffer.from(img, 'base64');
+            libro.img = Buffer.from(img, 'base64');
         }
         
         await this.libroRepository.save(libro)

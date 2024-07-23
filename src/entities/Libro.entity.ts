@@ -30,7 +30,7 @@ export class Libro {
 
   @Column({ type: 'longblob', nullable: true })
   @IsOptional()
-  imagen: Buffer;
+  img: Buffer;
 
   @OneToMany(()=>Solicitud, (solicitud)=>solicitud.libro)
   solicitudes: Solicitud[]
