@@ -52,6 +52,11 @@ constructor(private readonly libroService: LibroService) {}
     return this.libroService.editarLibro(idLibro, crearEditarLibroDto, file)
   }
 
+  @Put('eliminarUrlDeLibro/:idLibro')
+  async eliminarUrlDeLibro(@Param() idLibro: number) {
+    return this.libroService.eliminarUrlDeLibro(idLibro)
+  }
+
   @Delete(':id')
   async deleteLibro(@Param('id') idLibro: number): Promise<void> {
     await this.libroService.eliminarLibro(idLibro)

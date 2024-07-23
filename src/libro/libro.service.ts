@@ -204,4 +204,17 @@ export class LibroService {
       
         return this.solicitudRepository.save(nuevaSolicitud)
     }
+
+    async eliminarUrlDeLibro(idLibro: number): Promise<Libro>{
+        const libro = await this.libroRepository.findOneById(idLibro)
+        if (!libro) {
+          throw new NotFoundException(`Libro con id ${idLibro} no encontrado.`)
+        }
+
+        libro.url=null
+    
+        await this.libroRepository.save(libro)
+        return libro
+    }
 }
+
