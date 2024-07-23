@@ -46,9 +46,6 @@ export class ListaDeLibrosDigitalesComponent implements OnInit {
           }
         })
       })
-      /*this.pdfService.buscarPdfs().subscribe(response=>{
-        this.librosDigitales=response
-      })*/
     })
   }
 
