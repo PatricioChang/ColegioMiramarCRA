@@ -222,5 +222,17 @@ export class LibroService {
         await this.libroRepository.save(libro)
         return libro
     }
+
+    async eliminarImagenDeLibro(idLibro: number): Promise<Libro>{
+        const libro = await this.libroRepository.findOneById(idLibro)
+        if (!libro) {
+          throw new NotFoundException(`Libro con id ${idLibro} no encontrado.`)
+        }
+
+        libro.img=null
+    
+        await this.libroRepository.save(libro)
+        return libro
+    }
 }
 
