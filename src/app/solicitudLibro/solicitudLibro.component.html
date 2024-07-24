@@ -26,52 +26,27 @@
         </div>
       </div>
       <div class="mb-4">
+        <label class="block text-gray-700">Tipo de Usuario</label>
+        <select formControlName="userType" (change)="cambioUserType()" class="w-full px-3 py-2 border rounded">
+          <option value="" disabled selected>Seleccione el tipo de usuario</option>
+          <option value="educacionGeneralBasica">Educación General Básica</option>
+          <option value="ensenanzaMedia">Enseñanza Media</option>
+          <option value="funcionario">Funcionario</option>
+        </select>
+      </div>
+      <div class="mb-4" *ngIf="formularioSolicitudLibro.controls['userType'].value === 'educacionGeneralBasica'">
         <label class="block text-gray-700">Curso</label>
         <select formControlName="grade" class="w-full px-3 py-2 border rounded">
-          <option value="" disabled>Curso</option>
-          <option value="1°A">1°A</option>
-          <option value="1°B">1°B</option>
-          <option value="1°C">1°C</option>
-          <option value="2°A">2°A</option>
-          <option value="2°B">2°B</option>
-          <option value="2°C">2°C</option>
-          <option value="3°A">3°A</option>
-          <option value="3°B">3°B</option>
-          <option value="3°C">3°C</option>
-          <option value="4°A">4°A</option>
-          <option value="4°B">4°B</option>
-          <option value="4°C">4°C</option>
-          <option value="5°A">5°A</option>
-          <option value="5°B">5°B</option>
-          <option value="5°C">5°C</option>
-          <option value="6°A">6°A</option>
-          <option value="6°B">6°B</option>
-          <option value="7°A">7°A</option>
-          <option value="7°B">7°B</option>
-          <option value="8°A">8°A</option>
-          <option value="8°B">8°B</option>
-          <option value="8°C">8°C</option>
-          <option value="1°AHC">1°AHC</option>
-          <option value="1°BHC">1°BHC</option>
-          <option value="1°ATP">1°ATP</option>
-          <option value="1°BTP">1°BTP</option>
-          <option value="2°AHC">2°AHC</option>
-          <option value="2°BHC">2°BHC</option>
-          <option value="2°ATP">2°ATP</option>
-          <option value="2°BTP">2°BTP</option>
-          <option value="3°A HC">3°A HC</option>
-          <option value="3°A ADMINISTRACIÓN">3°A ADMINISTRACIÓN</option>
-          <option value="3°A PARVULOS">3°A PARVULOS</option>
-          <option value="3°B ENFERMERÍA">3°B ENFERMERÍA</option>
-          <option value="4°A HC">4°A HC</option>
-          <option value="4°A ADMINISTRACIÓN">4°A ADMINISTRACIÓN</option>
-          <option value="4°A PARVULOS">4°A PARVULOS</option>
-          <option value="4°B ENFERMERÍA">4°B ENFERMERÍA</option>
-          <option value="Funcionario">Funcionario</option>
+          <option value="" disabled>Seleccione el curso</option>
+          <option *ngFor="let curso of cursosEducacionGeneralBasica" [value]="curso">{{ curso }}</option>
         </select>
-        <div *ngIf="formularioSolicitudLibro.controls['grade'].invalid && (formularioSolicitudLibro.controls['grade'].dirty || formularioSolicitudLibro.controls['grade'].touched)" class="text-red-600">
-          Curso es obligatorio.
-        </div>
+      </div>
+      <div class="mb-4" *ngIf="formularioSolicitudLibro.controls['userType'].value === 'ensenanzaMedia'">
+        <label class="block text-gray-700">Curso</label>
+        <select formControlName="grade" class="w-full px-3 py-2 border rounded">
+          <option value="" disabled>Seleccione el curso</option>
+          <option *ngFor="let curso of cursosEnsenanzaMedia" [value]="curso">{{ curso }}</option>
+        </select>
       </div>
       <div class="mb-4">
         <label class="block text-gray-700">Rut</label>
