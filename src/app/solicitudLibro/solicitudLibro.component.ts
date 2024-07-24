@@ -86,9 +86,6 @@ export class SolicitudLibroComponent implements OnInit {
 
   public solicitarLibro(): void{
     if(this.formularioSolicitudLibro.valid){
-      /*if(this.formularioSolicitudLibro.controls['userType'].value=='funcionario'){
-        this.formularioSolicitudLibro.patchValue({ grade: 'Funcionario' })
-      }*/
       const solicitudLibroDto: SolicitudLibroDto= this.formularioSolicitudLibro.value
       solicitudLibroDto.fechaDeSolicitud= new Date()
       solicitudLibroDto.idLibro=this.idLibro

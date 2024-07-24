@@ -288,8 +288,9 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     if(tipoEditar=='editar'){
       this.editarLibroBoolean=true
       this.pdfBoolean=true
+      this.imgBoolean=true
       this.libro=libro
-      this.formularioAgregarEditar.setValue({
+      this.formularioAgregarEditar.patchValue({
         titulo: libro.titulo,
         autor: libro.autor,
         anio: libro.anio,
