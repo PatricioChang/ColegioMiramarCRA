@@ -15,7 +15,6 @@ constructor(private http: HttpClient) { }
   private apiUrl= 'https://colegiomiramarcra-production.up.railway.app/libro'
 
   public buscarLibros(): Observable<{ libro: Libro, imagenBase64: string }[]>{
-    //return this.http.get<Libro[]>(this.apiUrl + '/libros')
     return this.http.get<Libro[]>(this.apiUrl + '/libros').pipe(
       map(libros => libros.map(libro => {
         let imagenBase64 = ''

@@ -17,7 +17,6 @@ constructor(
 private apiUrl= 'https://colegiomiramarcra-production.up.railway.app/pdf'
 
 public buscarPdfs(): Observable<{ libro: Libro, imagenBase64: string }[]>{
-  //return this.http.get<Libro[]>(this.apiUrl)
   return this.http.get<Libro[]>(this.apiUrl).pipe(
     map(libros => libros.map(libro => {
       let imagenBase64 = ''
