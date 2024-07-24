@@ -183,31 +183,37 @@
 
       <!-- Hay Libros disponibles -->
       <div *ngIf="libros.length > 0" class="mt-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        <div *ngFor="let libro of libros" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition">
-          <h3 class="text-xl font-bold mb-2">{{libro.titulo}}</h3>
-          <p class="text-gray-700">Autor: {{libro.autor}}</p>
+        <div *ngFor="let libro of libros" class="bg-gray-100 p-4 rounded-lg shadow-md hover:bg-gray-200 transition flex items-center">
+          <div class="flex-grow">
+            <h3 class="text-xl font-bold mb-2">{{libro.libro.titulo}}</h3>
+          <p class="text-gray-700">Autor: {{libro.libro.autor}}</p>
 
           <!-- año > 0 (d.C) -->
-          <ng-container *ngIf="libro.anio>0">
-            <p class="text-gray-700">Año: {{libro.anio}}</p>
-          </ng-container>
-
-          <!-- año < 0 (a.C) -->
-          <ng-container *ngIf="libro.anio<0">
-            <p class="text-gray-700">Año: {{libro.anio*-1}} a.C</p>
-          </ng-container>
-
-          <p class="text-gray-700">Editorial: {{libro.editorial}}</p>
-          <p class="text-gray-700">Géneros:
-            <ng-container *ngFor="let libroGenero of libro.libro_Generos">
-              <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro_Generos.indexOf(libroGenero) < libro.libro_Generos.length - 1">, </span>
+          <ng-container *ngIf="libro.libro.anio>0">
+            <p class="text-gray-700">Año: {{libro.libro.anio}}</p>
             </ng-container>
-          </p>
-          <button (click)="iniciarEditarLibro(libro, 'editar')" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
-          <button (click)="eliminarLibro(libro.idLibro)" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar</button> 
-          <button *ngIf="!estadoPdf[libro.idLibro]" (click)="iniciarEditarLibro(libro, 'pdf')" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button>  
-          <button *ngIf="estadoPdf[libro.idLibro]" (click)="eliminarPdf(libro.idLibro)" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar PDF</button>
-          <button *ngIf="!estadoPdf[libro.idLibro]" (click)="iniciarEditarLibro(libro, 'img')" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar Imagen</button>  
+
+            <!-- año < 0 (a.C) -->
+            <ng-container *ngIf="libro.libro.anio<0">
+              <p class="text-gray-700">Año: {{libro.libro.anio*-1}} a.C</p>
+            </ng-container>
+
+            <p class="text-gray-700">Editorial: {{libro.libro.editorial}}</p>
+            <p class="text-gray-700">Géneros:
+              <ng-container *ngFor="let libroGenero of libro.libro.libro_Generos">
+                <span>{{libroGenero.genero.nombre}}</span><span *ngIf="libro.libro.libro_Generos.indexOf(libroGenero) < libro.libro.libro_Generos.length - 1">, </span>
+              </ng-container>
+            </p>
+            <button (click)="iniciarEditarLibro(libro.libro, 'editar')" class="mt-2 mr-2 bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded">Editar</button>
+            <button (click)="eliminarLibro(libro.libro.idLibro)" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar</button> 
+            <button *ngIf="!estadoPdf[libro.libro.idLibro]" (click)="iniciarEditarLibro(libro.libro, 'pdf')" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar PDF</button>  
+            <button *ngIf="estadoPdf[libro.libro.idLibro]" (click)="eliminarPdf(libro.libro.idLibro)" class="mt-2 mr-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar PDF</button>
+            <button *ngIf="!estadoImagen[libro.libro.idLibro]" (click)="iniciarEditarLibro(libro.libro, 'img')" class="mt-2 mr-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Agregar Imagen</button>  
+            <button *ngIf="estadoImagen[libro.libro.idLibro]" (click)="eliminarImagen(libro.libro.idLibro)" class="mt-2 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">Eliminar Imagen</button>
+          </div>
+          <div class="ml-4 flex-shrink-0 w-32">
+            <img *ngIf="libro.imagenBase64" [src]="'data:image/jpeg;base64,' + libro.imagenBase64" class="w-32 h-48 object-fill rounded-md">
+          </div>
         </div>
       </div>
     </ng-container>

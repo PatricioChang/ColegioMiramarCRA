@@ -71,7 +71,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       })
   }
 
-  public libros: Libro[] = []
+  public libros: { libro: Libro, imagenBase64: string }[] = []
   public generos: Genero[] = []
   public generosLibro: Genero[] = []
   public libro: Libro = new Libro(0, '', '', 0, '', [], '')
@@ -88,7 +88,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   public buscarFormulario: FormControl = new FormControl()
   public dropdownSettings: IDropdownSettings = {}
   public selectedFile: File | null = null
-  public estadoPdf: { [idLibro: number]: boolean } = {} 
+  public estadoPdf: { [idLibro: number]: boolean } = {}
+  public estadoImagen: { [idLibro: number]: boolean } = {} 
   public selectedMethod: string = ''
 
   public onFileSelected(event: any): void {
@@ -99,31 +100,38 @@ export class GestionarListaDeLibrosComponent implements OnInit {
   }
 
   public onImageSelected(event: any): void {
-    const file: File = event.target.files[0];
+    const file: File = event.target.files[0]
     if (file) {
-      const reader = new FileReader();
+      const reader = new FileReader()
       reader.onload = (e: any) => {
-        this.formularioAgregarEditar.patchValue({ img: e.target.result.split(',')[1] });
+        this.formularioAgregarEditar.patchValue({ img: e.target.result.split(',')[1] })
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file)
     }
   }
 
   public buscarLibros() {
     this.librosService.buscarLibros().subscribe(response => {
       this.libros = response
+      this.libros.forEach(libro=>{
+        if(libro.libro.img){
+          this.estadoImagen[libro.libro.idLibro] = true
+        }else{
+          this.estadoImagen[libro.libro.idLibro] = false
+        }
+      })
       this.verificarPdf()
     })
   }
 
   public verificarPdf(): void {
     this.pdfService.buscarPdfs().subscribe(response => {
-      const librosConPdf = response.map(pdf => pdf.idLibro)
+      const librosConPdf = response.map(pdf => pdf.libro.idLibro)
         this.libros.forEach(libro => {
-        if (libro.url || librosConPdf.includes(libro.idLibro)) {
-          this.estadoPdf[libro.idLibro] = true
+        if (libro.libro.url || librosConPdf.includes(libro.libro.idLibro)) {
+          this.estadoPdf[libro.libro.idLibro] = true
         } else {
-          this.estadoPdf[libro.idLibro] = false
+          this.estadoPdf[libro.libro.idLibro] = false
         }
       })
     })
@@ -141,7 +149,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         this.pdfService.buscarPdfs().subscribe(response => {
-          const librosConPdf = response.map(pdf => pdf.idLibro)
+          const librosConPdf = response.map(pdf => pdf.libro.idLibro)
           if (librosConPdf.includes(idLibro)) {
             this.pdfService.eliminarPdf(idLibro).subscribe(() => {
               Swal.fire({
@@ -167,6 +175,32 @@ export class GestionarListaDeLibrosComponent implements OnInit {
               this.buscarLibros()
             })
           }
+        })
+      }
+    })
+  }
+
+  public eliminarImagen(idLibro: number) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "¡No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminarlo'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.librosService.eliminarImagenDeLibro(idLibro).subscribe(()=>{
+          Swal.fire({
+            title: 'Eliminado!',
+            text: "La imagen ha sido eliminada.",
+            icon: 'success',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Ok'
+          })
+          this.restablecerValores()
+          this.buscarLibros()
         })
       }
     })
@@ -266,7 +300,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
     } else if(tipoEditar=='pdf'){
       this.pdfService.buscarPdfs().subscribe(response => {
-        const librosConPdf = response.map(pdf => pdf.idLibro)
+        const librosConPdf = response.map(pdf => pdf.libro.idLibro)
         if (librosConPdf.includes(libro.idLibro)) {
           Swal.fire({
             title: '¡El libro ya tiene PDF!',
@@ -419,7 +453,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
     if (titulo) {
       this.librosService.buscarLibros().subscribe(response => {
         this.libros = response.filter(libro =>
-          libro.titulo.toLowerCase().includes(titulo.toLowerCase())
+          libro.libro.titulo.toLowerCase().includes(titulo.toLowerCase())
         )
       })
     } else {

@@ -33,15 +33,15 @@ export class ListaDeLibrosDigitalesComponent implements OnInit {
       })
   }
 
-  public librosDigitales: Libro[]=[]
+  public librosDigitales: { libro: Libro, imagenBase64: string }[]=[]
   public buscarFormulario: FormControl = new FormControl()
 
   public cargarLibrosDigitales() {
     this.libroService.buscarLibros().subscribe(libros=>{
       this.pdfService.buscarPdfs().subscribe(response=>{
-        const librosConPdf = response.map(pdf => pdf.idLibro)
+        const librosConPdf = response.map(pdf => pdf.libro.idLibro)
         libros.forEach(libro => {
-          if (libro.url || librosConPdf.includes(libro.idLibro)) {
+          if (libro.libro.url || librosConPdf.includes(libro.libro.idLibro)) {
             this.librosDigitales.push(libro)
           }
         })
@@ -57,10 +57,11 @@ export class ListaDeLibrosDigitalesComponent implements OnInit {
     if (titulo) {
       this.pdfService.buscarPdfs().subscribe(response => {
         this.librosDigitales = response.filter(libro =>
-          libro.titulo.toLowerCase().includes(titulo.toLowerCase())
+          libro.libro.titulo.toLowerCase().includes(titulo.toLowerCase())
         )
       })
     } else {
+      this.librosDigitales=[]
       this.cargarLibrosDigitales()
     }
   }

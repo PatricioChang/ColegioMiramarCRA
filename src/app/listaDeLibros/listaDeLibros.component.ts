@@ -4,6 +4,7 @@ import { Libro } from '../models/Libro';
 import { Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { response } from 'express';
 
 @Component({
   selector: 'app-listaDeLibros',
@@ -29,14 +30,13 @@ export class ListaDeLibrosComponent implements OnInit {
       })
   }
 
-  public libros: Libro[] = []
-  public librosReservados: Libro[]=[]
+  public librosReservados: { libro: Libro, imagenBase64: string }[]=[]
+  public libros: { libro: Libro, imagenBase64: string }[] = []
   public buscarFormulario: FormControl = new FormControl()
 
   public buscarLibros(): void{
     this.librosService.buscarLibrosDisponibles().subscribe(response=>{
       this.libros=response
-      console.log(this.libros)
     })
     this.librosService.buscarLibrosReservados().subscribe(response=>{
       this.librosReservados=response
@@ -49,14 +49,14 @@ export class ListaDeLibrosComponent implements OnInit {
 
   public filtrarLibros(titulo: string): void {
     if (titulo) {
-      this.librosService.buscarLibrosDisponibles().subscribe(response => {
+      this.librosService.obtenerLibros().subscribe(response => {
         this.libros = response.filter(libro =>
-          libro.titulo.toLowerCase().includes(titulo.toLowerCase())
+          libro.libro.titulo.toLowerCase().includes(titulo.toLowerCase())
         )
       })
       this.librosService.buscarLibrosReservados().subscribe(response=>{
         this.librosReservados= response.filter(libro=>
-          libro.titulo.toLowerCase().includes(titulo.toLowerCase())
+          libro.libro.titulo.toLowerCase().includes(titulo.toLowerCase())
         )
       })
     } else {
