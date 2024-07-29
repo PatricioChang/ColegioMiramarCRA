@@ -300,6 +300,7 @@ export class GestionarListaDeLibrosComponent implements OnInit {
       })
       this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
     } else if(tipoEditar=='pdf'){
+      this.imgBoolean=true
       this.pdfService.buscarPdfs().subscribe(response => {
         const librosConPdf = response.map(pdf => pdf.libro.idLibro)
         if (librosConPdf.includes(libro.idLibro)) {
@@ -320,7 +321,8 @@ export class GestionarListaDeLibrosComponent implements OnInit {
             anio: libro.anio,
             editorial: libro.editorial,
             ubicacion: libro.ubicacion,
-            generos: libro.libro_Generos.map(genero => genero.genero)
+            generos: libro.libro_Generos.map(genero => genero.genero),
+            img: null
           })
           this.generosLibro=libro.libro_Generos.map(genero => genero.genero)
         } 
